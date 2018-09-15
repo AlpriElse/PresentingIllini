@@ -1,0 +1,27 @@
+{
+  "name": "presenting-illini",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node src/server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlpriElse/PresentingIllini.git"
+  },
+  "author": "Alpri Else",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlpriElse/PresentingIllini/issues"
+  },
+  "homepage": "https://github.com/AlpriElse/PresentingIllini#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "next": "^6.1.2",
+    "react-google-login": "^3.2.1"
+  }
+}
