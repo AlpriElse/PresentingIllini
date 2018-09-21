@@ -1,5 +1,5 @@
-import React from 'react';
-import GoogleLogin from 'react-google-login';
+import React from 'react'
+import GoogleLogin from 'react-google-login'
 
 function onSignIn(googleUser) {
     console.log(googleUser);
