@@ -1,29 +1,31 @@
 import React from 'react'
-import GoogleLogin from 'react-google-login'
+import firebase from 'firebase'
+import fire from './../fire'
 
-function onSignIn(googleUser) {
-    console.log(googleUser);
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
+var app = firebase.app()
 
-function onError(err) {
-  console.log("Error logging in!")
-  console.log(err)
-}
 const Login = () => (
   <div>
-    <GoogleLogin
-    clientId="299093187133-e5fdhp780t5r9qeoo2fju8efi0va6olc.apps.googleusercontent.com"
-    buttonText="Login"
-    onSuccess={onSignIn}
-    onFailure={onError}
-    />
+    <button onClick={googleLogin()}>Login with Google</button>
   </div>
 )
+
+let googleLogin = () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+
+  app.auth().signInWithPopup(provider)
+    .then((result) => {
+      let token = result.credential.accessToken // Google Access Token
+      let user = result.user
+      console.log(user.displayName)
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log("Firebase Auth Error")
+      console.log(errorCode, errorMessage)
+  });
+}
 
 
 export default Login;
