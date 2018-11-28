@@ -18,7 +18,7 @@ app.prepare().then(() => {
 
   //  Used for holding temporary data for unmade API/Fiebase
   //  connections
-  server.use(express.static('temp'))
+  server.use('/api', express.static('temp'))
 
   server.use(handler)
 
