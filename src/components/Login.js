@@ -6,17 +6,18 @@ var app = firebase.app()
 
 const Login = () => (
   <div>
-    <button onClick={googleLogin()}>Login with Google</button>
+    <button className="btn btn-danger" onClick={googleLogin}><strong>Login with Google</strong></button>
   </div>
 )
 
 let googleLogin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
 
-  app.auth().signInWithPopup(provider)
+  app.auth().signInWithRedirect(provider)
     .then((result) => {
       let token = result.credential.accessToken // Google Access Token
       let user = result.user
+      alert("Signed In! Hi, " + user.displayName)
       console.log(user.displayName)
     })
     .catch((error) => {

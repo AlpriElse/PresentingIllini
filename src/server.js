@@ -15,6 +15,10 @@ app.prepare()
   .then(() => {
     const server = express()
 
+    //  Used for holding temporary data for unmade API/Fiebase
+    //  connections
+    server.use(express.static('temp'))
+
     server.get('*', (req, res) => {
       return handle(req, res)
     })

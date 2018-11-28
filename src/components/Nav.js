@@ -10,6 +10,7 @@ const Nav = () => (
       <ul className="navbar-nav">
         <li className="nav-item active">
           <Link href="/"><a className="nav-link">Home</a></Link>
+          <Link href="/courses"><a className="next-link">Courses</a></Link>
         </li>
       </ul>
     </div>

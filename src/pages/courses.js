@@ -1,14 +1,13 @@
 import Header from '../components/Header'
 import Layout from '../components/Layout'
-import LoginPage from '../containers/LoginPage'
+import CourseViewer from '../containers/CourseViewer'
 
-const Index = () => (
+const Courses = () => (
   <div>
     <Header />
     <Layout>
-      <LoginPage />
+      <CourseViewer/>
     </Layout>
   </div>
 )
-
-export default Index
+export default Courses
