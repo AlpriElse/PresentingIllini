@@ -50,10 +50,12 @@ class CourseViewer extends React.Component {
       <div className="container">
         <br />
         <h2>Courses</h2>
+        <div className="row">
         {
           CourseListing
 
         }
+        </div>
         <div className="row justify-content-center">
 
 
