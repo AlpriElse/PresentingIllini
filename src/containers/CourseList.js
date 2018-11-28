@@ -3,16 +3,16 @@ import CourseInfoCard from '../components/CourseInfoCard'
 
 //  Implement with firebase when ready
 let fetchCourses = (callback) => {
-  fetch('temp_courses.json')
-    .then(function(response) {
-      return response.json();
+  fetch('/api/temp_courses.json')
+    .then((response) => {
+      return response.json()
     })
-    .then(function(myJson) {
-      callback(myJson);
+    .then((myJson) => {
+      callback(myJson)
     });
 }
 
-class CourseViewer extends React.Component {
+export default class CourseList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,7 +40,8 @@ class CourseViewer extends React.Component {
             <CourseInfoCard
               course_name={e.course_name}
               course_description={e.course_description}
-              instructor={e.instructor}/>
+              instructor={e.instructor}
+              course_id={e.course_id}/>
           )
         }) : <h5>Loading...</h5>
     )
@@ -53,17 +54,9 @@ class CourseViewer extends React.Component {
         <div className="row">
         {
           CourseListing
-
         }
-        </div>
-        <div className="row justify-content-center">
-
-
-
         </div>
       </div>
     )
   }
 }
-
-export default CourseViewer

@@ -17,7 +17,7 @@ class CourseInfoCard extends React.Component {
             <h4 className="card-title">{this.props.course_name}</h4>
             <h5 className="card-title">{this.props.instructor}</h5>
             <p className="card-text">{this.props.course_description}</p>
-            <a role="button" className="btn btn-primary" href="">Go to Course</a>
+            <a role="button" className="btn btn-primary" href={"/course/" + this.props.course_id}>Go to Course</a>
           </div>
         </div>
       </div>

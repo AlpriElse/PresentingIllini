@@ -1,12 +1,12 @@
 import Header from '../components/Header'
 import Layout from '../components/Layout'
-import CourseViewer from '../containers/CourseViewer'
+import CourseList from '../containers/CourseList'
 
 const Courses = () => (
   <div>
     <Header />
     <Layout>
-      <CourseViewer/>
+      <CourseList/>
     </Layout>
   </div>
 )
