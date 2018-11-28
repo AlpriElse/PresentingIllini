@@ -8,9 +8,11 @@ const Nav = () => (
     </button>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
-        <li className="nav-item active">
+        <li className="nav-item">
           <Link href="/"><a className="nav-link">Home</a></Link>
-          <Link href="/courses"><a className="next-link">Courses</a></Link>
+        </li>
+        <li className="nav-item">
+          <Link href="/courses"><a className="nav-link">Courses</a></Link>
         </li>
       </ul>
     </div>
