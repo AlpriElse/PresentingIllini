@@ -1,16 +1,20 @@
 import React from 'react'
-
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import CourseInfo from '../containers/CourseInfo'
 
-export default class Courses extends React.Component {
-  static async getInitialProps({query}) {
-    return {
-      course_id: query.course_id
+export default class Course extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      course_id: ""
     }
   }
-
+  static async getInitialProps ({query}) {
+    return ({
+      course_id: query.course_id
+    })
+  }
   render() {
     return (
       <div>

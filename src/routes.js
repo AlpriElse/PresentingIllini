@@ -1,9 +1,8 @@
-const routes = require('next-routes')()
-
-routes.add('index')
-routes.add('courses')
-routes.add('course', '/course/:course_id', 'course')
-routes.add('lecture','/course/:course_id/lecture/:lecture_id', 'lecture')
+const routes = require('next-routes')
 
 
-module.exports = routes
+module.exports = routes()
+.add('index')
+.add('courses')
+.add('course', '/course/:course_id')
+.add('lecture', '/course/:course_id/lecture/:lecture_id')

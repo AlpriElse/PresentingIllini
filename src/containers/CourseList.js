@@ -4,7 +4,7 @@ import Loading from '../components/Loading'
 
 //  Implement with firebase when ready
 let fetchCourses = (callback) => {
-  fetch('/api/temp_courses.json')
+  fetch('/api/course/all')
     .then((response) => {
       return response.json()
     })

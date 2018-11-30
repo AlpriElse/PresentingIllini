@@ -5,10 +5,10 @@ import Loading from '../components/Loading'
 const Style = {
   margin: '5px 0'
 }
-//  Implement with firebase when ready
+
 let fetchCourseInfo = (course_id, callback) => {
   //  Should use course_id to fetch data
-  fetch('/api/temp_course_info.json')
+  fetch('/api/course/' + course_id)
     .then((response) => {
       return response.json()
     })

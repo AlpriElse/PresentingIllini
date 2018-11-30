@@ -7,6 +7,7 @@ if (result.error) {
 const express = require('express')
 const next = require('next')
 const routes = require('./routes')
+const api_routes = require('./routes/api.js')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -18,7 +19,7 @@ app.prepare().then(() => {
 
   //  Used for holding temporary data for unmade API/Fiebase
   //  connections
-  server.use('/api', express.static('temp'))
+  server.use('/api', api_routes)
 
   server.use(handler)
 
