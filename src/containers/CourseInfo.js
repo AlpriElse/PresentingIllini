@@ -1,5 +1,6 @@
 import React from 'react'
-import moment from 'moment'
+import InfoCardList from '../components/InfoCardList'
+import Loading from '../components/Loading'
 
 const Style = {
   margin: '5px 0'
@@ -36,6 +37,7 @@ export default class CourseInfo extends React.Component {
     })
   }
 
+
   render() {
     let CourseInfo = (
       this.state.course_info.course_name ?
@@ -46,24 +48,12 @@ export default class CourseInfo extends React.Component {
           <h4>Lectures</h4>
           <div className="row">
           {
-            this.state.course_info.lectures.map((e) => {
-              let date = moment(e.date).format("MMMM, Do YYYY")
-
-              return (
-                <div className="col-12">
-                  <div className="card" style={Style}>
-                    <div className="card-body">
-                      <h5 className="card-title">{date} {e.lecture_title}</h5>
-                      <p className="card-text">{e.lecture_description}</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            })
+            <InfoCardList type="lectures"
+              data={this.state.course_info}/>
           }
           </div>
         </div>
-      </div> : <h3>Loading...</h3>
+      </div> : <Loading />
     )
     return (
       <div className="container">

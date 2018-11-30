@@ -1,5 +1,6 @@
 import React from 'react'
-import CourseInfoCard from '../components/CourseInfoCard'
+import InfoCardList from '../components/InfoCardList'
+import Loading from '../components/Loading'
 
 //  Implement with firebase when ready
 let fetchCourses = (callback) => {
@@ -35,17 +36,9 @@ export default class CourseList extends React.Component {
   render() {
     let CourseListing = (
       this.state.courses.length > 0 ?
-        this.state.courses.map((e) => {
-          return (
-            <CourseInfoCard
-              course_name={e.course_name}
-              course_description={e.course_description}
-              instructor={e.instructor}
-              course_id={e.course_id}/>
-          )
-        }) : <h5>Loading...</h5>
+        <InfoCardList type="courses"
+          data={this.state.courses}/> : <Loading />
     )
-
 
     return (
       <div className="container">
