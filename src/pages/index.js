@@ -1,19 +1,9 @@
-// import Header from '../components/Header'
-// import Layout from '../components/Layout'
-// import LoginPage from '../containers/LoginPage'
-//
-// const Index = () => (
-//   <div>
-//     <Header />
-//     <Layout>
-//       <LoginPage />
-//     </Layout>
-//   </div>
-// )
-//
-// export default Index
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import Page from '../containers/Page'
+
+import LoginPage from '../containers/LoginPage'
+
 import {startClock, serverRenderClock} from '../actions/clock'
 import Examples from '../components/examples'
 
@@ -33,10 +23,11 @@ class Index extends React.Component {
   componentWillUnmount () {
     clearInterval(this.timer)
   }
-
-  render () {
+  render() {
     return (
-      <Examples />
+      <Page>
+        <LoginPage />
+      </Page>
     )
   }
 }

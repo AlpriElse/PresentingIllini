@@ -1,13 +1,12 @@
-import Header from '../components/Header'
-import Layout from '../components/Layout'
+import React from 'react'
+import { connect } from 'react-redux'
+import Page from '../containers/Page'
+
 import CourseList from '../containers/CourseList'
 
 const Courses = () => (
-  <div>
-    <Header />
-    <Layout>
-      <CourseList/>
-    </Layout>
-  </div>
+  <Page>
+    <CourseList/>
+  </Page>
 )
-export default Courses
+export default connect()(Courses)

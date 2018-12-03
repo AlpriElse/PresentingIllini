@@ -1,9 +1,10 @@
 import React from 'react'
-import Header from '../components/Header'
-import Layout from '../components/Layout'
+import { connect } from 'react-redux'
+import Page from '../containers/Page'
+
 import CourseInfo from '../containers/CourseInfo'
 
-export default class Course extends React.Component {
+class Course extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,12 +18,11 @@ export default class Course extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Header />
-        <Layout>
+      <Page>
           <CourseInfo course_id={this.props.course_id}/>
-        </Layout>
-      </div>
+      </Page>
     )
   }
 }
+
+export default connect()(Course)

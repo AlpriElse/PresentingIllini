@@ -23,3 +23,12 @@ export const decrementCount = () => dispatch => {
 export const resetCount = () => dispatch => {
   return dispatch({ type: actionTypes.RESET })
 }
+
+export const setUser = (user) => dispatch => {
+  return (
+    dispatch({
+      type: actionTypes.SET_USER,
+      user: user
+    })
+  )
+}

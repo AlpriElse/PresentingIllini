@@ -1,32 +1,31 @@
 import React from 'react'
-import firebase from 'firebase'
-import fire from './../fire'
+import {connect} from 'react-redux'
 
-var app = firebase.app()
+import googleLogin from './../firebase/googleLogin'
+import { setUser } from '../actions/user.js'
 
-const Login = () => (
-  <div>
-    <button className="btn btn-danger" onClick={googleLogin}><strong>Login with Google</strong></button>
-  </div>
-)
 
-let googleLogin = () => {
-  const provider = new firebase.auth.GoogleAuthProvider()
+class Login extends React.Component {
+  constructor(props) {
+    super(props)
+    this.dispatchSetUser = this.dispatchSetUser.bind(this)
+  }
 
-  app.auth().signInWithRedirect(provider)
-    .then((result) => {
-      let token = result.credential.accessToken // Google Access Token
-      let user = result.user
-      alert("Signed In! Hi, " + user.displayName)
-      console.log(user.displayName)
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("Firebase Auth Error")
-      console.log(errorCode, errorMessage)
-  });
+  dispatchSetUser(name) {
+    const {dispatch} = this.props
+    dispatch(setUser(name))
+  }
+
+  render () {
+    return (
+      <div>
+        <button className="btn btn-danger"
+          onClick={() => {
+            googleLogin(this.dispatchSetUser)
+          }}><strong>Login with Google</strong></button>
+      </div>
+    )
+  }
 }
 
-
-export default Login;
+export default connect()(Login)

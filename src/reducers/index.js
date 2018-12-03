@@ -1,4 +1,5 @@
 import {actionTypes} from '../constants/ActionTypes'
+import { SET_USER } from '../constants/ActionTypes'
 import {exampleInitialState} from '../redux/initialState'
 
 const reducer = (state = exampleInitialState, action) => {
@@ -19,6 +20,10 @@ const reducer = (state = exampleInitialState, action) => {
     case actionTypes.RESET:
       return Object.assign({}, state, {
         count: exampleInitialState.count
+      })
+    case SET_USER:
+      return Object.assign({}, state, {
+        user: action.user
       })
     default: return state
   }

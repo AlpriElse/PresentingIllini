@@ -1,3 +1,6 @@
+import React from 'react'
+import { connect } from 'react-redux'
+
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import LectureView from '../containers/LectureView'
@@ -11,4 +14,4 @@ const Lecture = () => (
   </div>
 )
 
-export default Lecture
+export default connect()(Lecture)
