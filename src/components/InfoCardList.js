@@ -27,7 +27,7 @@ export default class InfoCardList extends React.Component {
     return (
       this.props.data.lectures.map((e) => {
         let date = Moment(e.date).format("MMMM, Do YYYY")
-        let link = "/course/" + this.props.course_id + "/lecture/"
+        let link = "/course/" + this.props.data.course_id + "/lecture/"
           + e.lecture_id;
 
         return (
