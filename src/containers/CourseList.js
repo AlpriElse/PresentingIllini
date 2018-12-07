@@ -1,55 +1,59 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import InfoCardList from '../components/InfoCardList'
 import Loading from '../components/Loading'
+import AddCourseInfoCard from '../components/AddCourseInfoCard'
+import { fetchAllCourses } from '../actions/course.js'
 
-//  Implement with firebase when ready
-let fetchCourses = (callback) => {
-  fetch('/api/course/all')
-    .then((response) => {
-      return response.json()
-    })
-    .then((myJson) => {
-      callback(myJson)
-    });
-}
-
-export default class CourseList extends React.Component {
+class CourseList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      courses: []
+      courses: [],
+      isLoading: true
     }
 
     this.updateCourseList = this.updateCourseList.bind(this)
   }
 
   componentDidMount() {
-    fetchCourses(this.updateCourseList)
+    const {dispatch} = this.props
+    dispatch(fetchAllCourses(this.updateCourseList))
   }
 
-  updateCourseList(courses) {
+  updateCourseList(status, courses) {
+    console.log(courses)
+    if (status == "Success") {
+      this.setState({
+        courses: courses
+      })
+    }
     this.setState({
-      courses: courses
+      isLoading: false
     })
+
   }
 
   render() {
-    let CourseListing = (
-      this.state.courses.length > 0 ?
-        <InfoCardList type="courses"
-          data={this.state.courses}/> : <Loading />
-    )
+    let Content = this.state.isLoading ? <Loading /> :
+      <InfoCardList type="courses"
+        data={this.state.courses}/>
 
     return (
       <div className="container">
         <br />
         <h2>Courses</h2>
         <div className="row">
-        {
-          CourseListing
-        }
+          {
+            Content
+          }
+          {
+            !this.state.isLoading && <AddCourseInfoCard />
+          }
         </div>
       </div>
     )
   }
 }
+
+export default connect()(CourseList)

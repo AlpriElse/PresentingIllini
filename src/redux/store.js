@@ -5,5 +5,11 @@ import reducer from '../reducers'
 import {exampleInitialState} from './initialState'
 
 export function initializeStore (initialState = exampleInitialState) {
-  return createStore(reducer, initialState, composeWithDevTools(applyMiddleware(thunkMiddleware)))
+  return createStore(
+    reducer,
+    initialState,
+    composeWithDevTools(
+      applyMiddleware(thunkMiddleware)
+    )
+  )
 }

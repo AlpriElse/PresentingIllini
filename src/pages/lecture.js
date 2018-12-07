@@ -1,18 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Page from '../containers/Page'
-import { Document } from 'react-pdf'
-import { Page as DocumentPage } from 'react-pdf' // Name conflict
-import { pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import PDFViewer from '../components/PDFViewer'
 
 class Lecture extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      pageNumber: 1
+      pageNumber: 1,
+      numPages: null
     }
-    this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
   static async getInitialProps ({query}) {
@@ -22,28 +19,15 @@ class Lecture extends React.Component {
     })
   }
 
-  handleKeyDown(e) {
-    console.log(e)
-    if(e.which == 39) {
-      this.setState({
-        pageNumber: this.state.pageNumber + 1
-      })
-    } else if (e.which == 37) {
-      this.setState({
-        pageNumber: Math.min(1, this.state.pageNumber - 1)
-      })
-    }
-  }
-
   render() {
     return (
       <Page>
-        <br/>
-        <h2>Lecture</h2>
-        <div onKeyDown={this.handleKeyDown} tabIndex="0">
-          <Document file="http://localhost:3000/api/givePDF">
-            <DocumentPage pageNumber={this.state.pageNumber}/>
-          </Document>
+        <div>
+          <br/>
+          <h2>Lecture</h2>
+          <div className="justify-content-center">
+            <PDFViewer fileLink="http://localhost:3000/api/givePDF"/>
+          </div>
         </div>
       </Page>
     )

@@ -13,7 +13,7 @@ export default class InfoCardList extends React.Component {
       this.props.data.map((e) => {
         return (
           <CourseInfoCard
-            course_name={e.course_name}
+            course_title={e.course_title}
             course_description={e.course_description}
             instructor={e.instructor}
             course_id={e.course_id}/>

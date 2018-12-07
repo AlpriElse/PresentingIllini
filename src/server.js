@@ -8,6 +8,7 @@ const express = require('express')
 const next = require('next')
 const routes = require('./routes')
 const api_routes = require('./routes/api.js')
+const bodyParser = require('body-parser')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -16,6 +17,9 @@ const handler = routes.getRequestHandler(app)
 
 app.prepare().then(() => {
   const server = express()
+
+  server.use(bodyParser.json())
+  server.use(bodyParser.urlencoded({ extended: true }))
 
   //  Used for holding temporary data for unmade API/Fiebase
   //  connections
