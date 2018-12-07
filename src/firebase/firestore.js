@@ -25,7 +25,7 @@ module.exports.createCourse = (course) => {
   })
 }
 
-module.exports.fetchCourses = (callback) => {
+module.exports.fetchAllCourses = (callback) => {
   db.collection("courses").get().then((snapshot) => {
     //  doc.id
     let courses = []
@@ -37,4 +37,23 @@ module.exports.fetchCourses = (callback) => {
   .catch((err) => {
     console.log('Error getting documents', err);
   })
+}
+
+module.exports.fetchCourse = (course_id, cb) => {
+  db.collection("courses").where('course_id', '==', course_id).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        cb("No matches", {})
+        return
+      }
+      let courses = []
+      snapshot.forEach(doc => {
+        courses.push(doc.data())
+      })
+      cb("Found", courses[0])
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+    });
+
 }

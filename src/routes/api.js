@@ -2,24 +2,18 @@ const express = require('express')
 const router = express.Router()
 const fs = require('fs')
 const path = require('path')
-const { createCourse, fetchCourses } = require('../firebase/firestore')
+const { createCourse, fetchAllCourses, fetchCourse } = require('../firebase/firestore')
 
 router.get('/course/all' , (req, res) => {
-  fetchCourses((courses) => {
+  fetchAllCourses((courses) => {
     res.json(courses)
   })
 })
 
 router.get('/course/:course_id', (req, res) => {
-  let courses = getJSON('../../temp/data.json')
-  let requested_course = {}
-  for (let course of courses) {
-    if (course.course_id == req.params.course_id) {
-      requested_course = course
-      break
-    }
-  }
-  res.json(requested_course)
+  fetchCourse(req.params.course_id, (status, course) => {
+    res.json(course)
+  })
 })
 
 router.get('/course/:course_id/lecture_info/:lecture_id', (req, res) => {

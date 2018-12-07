@@ -10,7 +10,7 @@ export default class InfoCardList extends React.Component {
 
   renderCourseList() {
     return (
-      this.props.data.map((e) => {
+      this.props.courses.map((e) => {
         return (
           <CourseInfoCard
             course_title={e.course_title}
@@ -23,9 +23,20 @@ export default class InfoCardList extends React.Component {
   }
 
   renderLectureList() {
-    console.log("data:",this.props.data)
+    if (this.props.courses == undefined) {
+      return (
+        <div className="col-12">
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">No lectures available.</h5>
+              <p className="card-text">This may be a mistake, contact your instructor.</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
     return (
-      this.props.data.lectures.map((e) => {
+      this.props.lectures.map((e) => {
         let date = Moment(e.date).format("MMMM, Do YYYY")
         let link = "/course/" + this.props.data.course_id + "/lecture/"
           + e.lecture_id;

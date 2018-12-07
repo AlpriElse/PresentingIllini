@@ -1,4 +1,4 @@
-import { CREATE_COURSE, FETCH_ALL_COURSES } from '../constants/ActionTypes'
+import { CREATE_COURSE, FETCH_ALL_COURSES, FETCH_COURSE } from '../constants/ActionTypes'
 
 /**
  *  Creating a new course.
@@ -75,8 +75,6 @@ export const fetchAllCourses = (cb) => (dispatch) => {
     method: "GET"
   }).then(
       res => {
-        console.log(res)
-        dispatch(fetchAllCoursesSuccess(res.data))
         return res.json()
       },
       err => {
@@ -84,6 +82,51 @@ export const fetchAllCourses = (cb) => (dispatch) => {
         dispatch(fetchAllCoursesFailure(err))
       }
     ).then((json) => {
+      dispatch(fetchAllCoursesSuccess(json))
+      cb("Success", json)
+    })
+}
+
+/**
+ *  Loading all courses.
+ */
+
+export const fetchCourseRequest = () => {
+  return ({
+    type: FETCH_COURSE.REQUEST
+  })
+}
+
+export const fetchCourseSuccess = (courses) => {
+  return ({
+    type: FETCH_COURSE.SUCCESS,
+    courses
+  })
+}
+
+export const fetchCourseFailure = (data) => {
+  return ({
+    type: FETCH_COURSE.FAILURE,
+    data
+  })
+}
+
+export const fetchCourse = (course_id, cb) => (dispatch) => {
+  dispatch(fetchCourseRequest())
+  console.log("fetching")
+  return fetch('http://localhost:3000/api/course/' + course_id, {
+    method: "GET"
+  }).then(
+      res => {
+        return res.json()
+      },
+      err => {
+        cb("Error", {})
+        dispatch(fetchCourseFailure(err))
+      }
+    ).then((json) => {
+      console.log("Here")
+      dispatch(fetchCourseSuccess(json))
       cb("Success", json)
     })
 }

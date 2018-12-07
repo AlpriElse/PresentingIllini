@@ -37,7 +37,7 @@ class CourseList extends React.Component {
   render() {
     let Content = this.state.isLoading ? <Loading /> :
       <InfoCardList type="courses"
-        data={this.state.courses}/>
+        courses={this.state.courses}/>
 
     return (
       <div className="container">
