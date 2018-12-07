@@ -5,7 +5,6 @@ import Page from '../containers/Page'
 import LoginPage from '../containers/LoginPage'
 
 import {startClock, serverRenderClock} from '../actions/clock'
-import Examples from '../components/examples'
 
 class Index extends React.Component {
   static getInitialProps ({ reduxStore, req }) {
