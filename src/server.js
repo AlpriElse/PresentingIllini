@@ -10,7 +10,7 @@ const routes = require('./routes')
 const api_routes = require('./routes/api.js')
 const bodyParser = require('body-parser')
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({
   dev
