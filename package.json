@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next src",
     "build": "build src",
-    "heroku-postbuild": "./node_modules/next/dist/bin/next build",
+    "heroku-postbuild": "./node_modules/next/dist/bin/next build src",
     "start": "next start src"
   },
   "repository": {
