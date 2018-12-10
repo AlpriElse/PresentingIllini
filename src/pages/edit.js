@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Page from '../containers/Page'
 
 import CreateCourse from '../containers/CreateCourse'
+import AddLecture from '../containers/AddLecture'
 
 class Edit extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class Edit extends React.Component {
   }
   static async getInitialProps ({query}) {
     return ({
-      page: query.page
+      page: query.page,
+      course_id: query.course_id
     })
   }
   render() {
@@ -20,10 +22,15 @@ class Edit extends React.Component {
       case "createCourse":
         editor = <CreateCourse/>
         break;
+      case "addLecture":
+        editor = <AddLecture/>
+        break;
       default:
         editor = <h1>Error</h1>
         break;
     }
+
+    
     return (
       <Page>
         {editor}

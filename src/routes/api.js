@@ -35,10 +35,6 @@ router.get('/course/:course_id/lecture_info/:lecture_id', (req, res) => {
   res.json(reqeusted_lecture)
 })
 
-router.get('/givePDF', (req, res) => {
-  res.sendFile(path.join(__dirname,"../../temp/Lecture_33.pdf"))
-})
-
 router.post('/createCourse', (req, res) => {
   console.log("Called")
   console.log(req.body)
@@ -49,7 +45,9 @@ router.post('/createCourse', (req, res) => {
   res.json({message: "Success"})
 })
 
-
+router.get('/givePDF', (req, res) => {
+  res.sendFile(path.join(__dirname,"../../temp/Lecture_33.pdf"))
+})
 
 const getJSON = (filepath) => {
   let contents = fs.readFileSync(path.join(__dirname, "../../temp/data.json"))

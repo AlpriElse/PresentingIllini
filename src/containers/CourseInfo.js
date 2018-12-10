@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import InfoCardList from '../components/InfoCardList'
 import Loading from '../components/Loading'
 import { fetchCourse } from '../actions/course'
+import AddLectureInfoCard from '../components/AddLectureInfoCard'
 
 const Style = {
   margin: '5px 0'
@@ -47,10 +48,15 @@ class CourseInfo extends React.Component {
         <div>
           <h4>Lectures</h4>
           <div className="row">
-          {
             <InfoCardList type="lectures"
               data={this.state.course_info}/>
-          }
+            {
+              !(this.state.course_info == undefined) &&
+                <AddLectureInfoCard course_title={this.state.course_info.course_title}
+                course_id={this.state.course_info.course_id}/>
+            }
+
+
           </div>
         </div>
       </div> : <Loading />

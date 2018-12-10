@@ -6,4 +6,11 @@ module.exports = routes()
 .add('courses')
 .add('course', '/course/:course_id')
 .add('lecture', '/course/:course_id/lecture/:lecture_id')
-.add('edit', '/edit/:page')
+.add({
+  page: 'edit',
+  pattern: '/edit/:page'
+})
+.add({
+  page: 'edit',
+  pattern: '/edit/:page/course/:course_id'
+})

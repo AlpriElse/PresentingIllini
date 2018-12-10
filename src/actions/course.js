@@ -1,29 +1,23 @@
+import { makeActionCreator } from './util.js'
 import { CREATE_COURSE, FETCH_ALL_COURSES, FETCH_COURSE } from '../constants/ActionTypes'
 
 /**
  *  Creating a new course.
  */
+const createCourseRequest = makeActionCreator(
+  CREATE_COURSE.REQUEST,
+  "course"
+)
 
-export const createCourseRequest = (course) => {
-  return ({
-    type: CREATE_COURSE.REQUEST,
-    course
-  })
-}
+const createCourseSuccess =  makeActionCreator(
+  CREATE_COURSE.SUCCESS,
+  "course"
+)
 
-export const createCourseSuccess = (course) => {
-  return ({
-    type: CREATE_COURSE.SUCCESS,
-    course
-  })
-}
-
-export const createCourseFailure = (data) => {
-  return ({
-    type: CREATE_COURSE.FAILURE,
-    data
-  })
-}
+const createCourseFailure = makeActionCreator(
+  CREATE_COURSE.FAILURE,
+  "data"
+)
 
 export const createCourse = (course, cb) => (dispatch) => {
   dispatch(createCourseRequest(course))
@@ -31,7 +25,7 @@ export const createCourse = (course, cb) => (dispatch) => {
     method: "POST",
     body: JSON.stringify(course),
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     }
   }).then(
       res => {
@@ -49,25 +43,19 @@ export const createCourse = (course, cb) => (dispatch) => {
  *  Loading all courses.
  */
 
-export const fetchAllCoursesRequest = () => {
-  return ({
-    type: FETCH_ALL_COURSES.REQUEST
-  })
-}
+const fetchAllCoursesRequest = makeActionCreator(
+  FETCH_ALL_COURSES.REQUEST
+)
 
-export const fetchAllCoursesSuccess = (courses) => {
-  return ({
-    type: FETCH_ALL_COURSES.SUCCESS,
-    courses
-  })
-}
+const fetchAllCoursesSuccess = makeActionCreator(
+  FETCH_ALL_COURSES.SUCCESS,
+  "courses"
+)
 
-export const fetchAllCoursesFailure = (data) => {
-  return ({
-    type: FETCH_ALL_COURSES.FAILURE,
-    data
-  })
-}
+const fetchAllCoursesFailure = makeActionCreator(
+  FETCH_ALL_COURSES.SUCCESS,
+  "data"
+)
 
 export const fetchAllCourses = (cb) => (dispatch) => {
   dispatch(fetchAllCoursesRequest())
@@ -91,20 +79,20 @@ export const fetchAllCourses = (cb) => (dispatch) => {
  *  Loading all courses.
  */
 
-export const fetchCourseRequest = () => {
+const fetchCourseRequest = () => {
   return ({
     type: FETCH_COURSE.REQUEST
   })
 }
 
-export const fetchCourseSuccess = (courses) => {
+const fetchCourseSuccess = (courses) => {
   return ({
     type: FETCH_COURSE.SUCCESS,
     courses
   })
 }
 
-export const fetchCourseFailure = (data) => {
+const fetchCourseFailure = (data) => {
   return ({
     type: FETCH_COURSE.FAILURE,
     data
