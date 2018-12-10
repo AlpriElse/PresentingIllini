@@ -5,9 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next src",
-    "build": "build src",
-    "heroku-postbuild": "./node_modules/next/dist/bin/next build src",
-    "start": "next start src"
+    "build": "next build src",
+    "heroku-postbuild": "next build src",
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",
