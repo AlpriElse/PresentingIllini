@@ -30,7 +30,7 @@ class Edit extends React.Component {
         break;
     }
 
-    
+
     return (
       <Page>
         {editor}

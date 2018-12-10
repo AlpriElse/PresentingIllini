@@ -2,12 +2,11 @@
   "name": "presenting-illini",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/server.js",
-    "build": "next build",
-    "start": "NODE_ENV=production node src/server.js"
+    "dev": "next src",
+    "build": "build src",
+    "start": "next start src"
   },
   "repository": {
     "type": "git",
@@ -27,6 +26,7 @@
     "firebase-admin": "^6.3.0",
     "moment": "^2.22.2",
     "next": "^7.0.0",
+    "next-progressbar": "^1.0.0",
     "next-routes": "^1.4.2",
     "node-fetch": "^2.3.0",
     "react": "^16.6.3",
