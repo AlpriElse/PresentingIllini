@@ -13,7 +13,8 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 5000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({
-  dev
+  dev,
+  dir: './src'
 })
 const handler = routes.getRequestHandler(app)
 
@@ -23,6 +24,11 @@ app.prepare().then(() => {
 
   server.use(bodyParser.json())
   server.use(bodyParser.urlencoded({ extended: true }))
+
+  // server.use((req, res, next) => {
+  //   console.log(req)
+  //   next()
+  // })
 
   //  Used for holding temporary data for unmade API/Fiebase
   //  connections

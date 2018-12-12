@@ -8,17 +8,10 @@ import { fetchAllCourses } from '../actions/course.js'
 class CourseList extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      courses: [],
-      isLoading: true
-    }
-
-    this.updateCourseList = this.updateCourseList.bind(this)
   }
 
   componentDidMount() {
-    const {dispatch} = this.props
-    dispatch(fetchAllCourses(this.updateCourseList))
+    this.props.loadCourses()
   }
 
   updateCourseList(status, courses) {
@@ -35,9 +28,13 @@ class CourseList extends React.Component {
   }
 
   render() {
-    let Content = this.state.isLoading ? <Loading /> :
+    const courses = this.props.courses
+    let showLoading = courses.isFetching || courses.invalid
+
+
+    let Content = showLoading ? <Loading /> :
       <InfoCardList type="courses"
-        courses={this.state.courses}/>
+        courses={courses.items}/>
 
     return (
       <div className="container">
@@ -48,7 +45,7 @@ class CourseList extends React.Component {
             Content
           }
           {
-            !this.state.isLoading && <AddCourseInfoCard />
+            !showLoading && <AddCourseInfoCard />
           }
         </div>
       </div>
@@ -56,4 +53,18 @@ class CourseList extends React.Component {
   }
 }
 
-export default connect()(CourseList)
+const mapStateToProps = (state) => {
+  return {
+    courses: state.courses
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCourses: () => {
+      dispatch(fetchAllCourses())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList)

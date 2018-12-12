@@ -1,6 +1,6 @@
 import { makeActionCreator } from './util.js'
 import { ADD_LECTURE, FETCH_ALL_LECTURES, FETCH_LECTURE } from '../constants/ActionTypes'
-
+import { cloudstore, firestore } from '../firebase/fire'
 
 const addLectureRequest = makeActionCreator(
   ADD_LECTURE.REQUEST,
@@ -17,22 +17,18 @@ const addLectureFailure = makeActionCreator(
   "data"
 )
 
-export const addLecture = (lecture, cb) => (dispatch) => {
-  dispatch(addLectureRequest(lecture))
-  return fetch('http://localhost:3000/api/addLecture', {
-    method: "POST",
-    body: JSON.stringify(lecture),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(
-    res => {
-      cb("Success")
-      dispatch(addLectureSuccess(res.data))
-    },
-    err => {
-      cb("Error")
-      dispatch(addLectureFailure(res.data))
-    }
-  )
+export const LECTURE = {
+  ADD: (lecture, cb) => (dispatch) => {
+    dispatch(addLectureRequest(lecture))
+    return cloudstore.uploadLecture(lecture.slides).then(
+      res => {
+        cb("Success")
+        dispatch(addLectureSuccess(lecture))
+      },
+      err => {
+        cb("Error")
+        dispatch(addLectureFailure(err))
+      }
+    )
+  }
 }

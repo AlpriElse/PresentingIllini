@@ -12,48 +12,30 @@ const Style = {
 class CourseInfo extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      course_info: {},
-      isLoading: true
-    }
-
-    this.updateCourseInfo = this.updateCourseInfo.bind(this)
   }
 
   componentDidMount() {
-    const {dispatch} = this.props
-    dispatch(fetchCourse(this.props.course_id, this.updateCourseInfo))
+    this.props.loadCourse(this.props.course_id)
   }
-
-  updateCourseInfo(status, course_info) {
-    console.log("callback called")
-    if (status == "Success") {
-      this.setState({
-        course_info: course_info
-      })
-    }
-    this.setState({
-      isLoading: false
-    })
-
-  }
-
 
   render() {
+    let course = this.props.course
+    let course_info = this.props.course.items
+    console.log(course)
     let Content = (
-      !this.state.isLoading ?
+      !course.isFetching && !course.invalid ?
       <div>
-        <h2>{this.state.course_info.course_title}</h2>
-        <p>{this.state.course_info.course_description}</p>
+        <h2>{course_info.course_title}</h2>
+        <p>{course_info.course_description}</p>
         <div>
           <h4>Lectures</h4>
           <div className="row">
             <InfoCardList type="lectures"
-              data={this.state.course_info}/>
+              data={course_info}/>
             {
-              !(this.state.course_info == undefined) &&
-                <AddLectureInfoCard course_title={this.state.course_info.course_title}
-                course_id={this.state.course_info.course_id}/>
+              !(course_info == undefined) &&
+                <AddLectureInfoCard course_title={course_info.course_title}
+                course_id={course_info.course_id}/>
             }
 
 
@@ -69,4 +51,18 @@ class CourseInfo extends React.Component {
   }
 }
 
-export default connect()(CourseInfo)
+const mapStateToProps = (state) => {
+  return {
+    course: state.course
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCourse: (course_id) => {
+      dispatch(fetchCourse(course_id))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseInfo)

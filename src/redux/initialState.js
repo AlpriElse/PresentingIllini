@@ -1,6 +1,13 @@
 export const exampleInitialState = {
-  lastUpdate: 0,
-  light: false,
-  count: 0,
-  user: ""
+  user: "",
+  courses: {
+    isFetching: false,
+    invalid: true,
+    items: []
+  },
+  course: {
+    isFetching: false,
+    invalid: true,
+    items: {}
+  }
 }

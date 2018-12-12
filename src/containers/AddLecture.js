@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addLecture } from '../actions/lecture'
+import { LECTURE } from '../actions/lecture'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
@@ -9,41 +9,43 @@ class AddLecture extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      title: null,
+      description: null
     }
-    this.handleFormChange = this.handleFormChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.fileInput = React.createRef()
   }
 
-  handleFormChange(e) {
+  handleFormChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
   }
 
-  handleSubmit(e) {
-    const {dispatch} = this.props
-    dispatch(addLecture(this.state, this.createCallback))
+  handleSubmit = (e) => {
     e.preventDefault()
-  }
+    this.props.addLecture({
+    title: this.state.title,
+    description: this.state.description,
+    slides: this.fileInput.current.files[0]
 
-  createCallback(message) {
-    // if (message == "Success") {
-    //   MySwal.fire({
-    //     title: "Successfully Added Lecture",
-    //     confirmButtonText: "Okay!",
-    //     type: "success",
-    //   }).then(() => {
-    //     window.location.href = "http://localhost:3000/courses";
-    //   })
-    // } else if (message == "Error") {
-    //   MySwal.fire({
-    //     title: "Error when Added Course",
-    //     type: "error",
-    //     confirmButtonText: "Retry submission."
-    //
-    //   })
-    // }
+    }, (message) => {
+      if (message == "Success") {
+        MySwal.fire({
+          title: "Successfully Added Lecture",
+          confirmButtonText: "Okay!",
+          type: "success",
+        }).then(() => {
+          window.location.href = "/courses";
+        })
+      } else if (message == "Error") {
+        MySwal.fire({
+          title: "Error when adding lecture...",
+          type: "error",
+          confirmButtonText: "Retry submission."
+
+        })
+      }
+    })
   }
 
   render() {
@@ -54,16 +56,24 @@ class AddLecture extends React.Component {
         <br />
         <form className="col-md-6 offset-md-3" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label className="sr-only" htmlFor="lecture_title">Lecture Title</label>
-            <input type="text" className="form-control" id="lecture_title"
+            <label className="sr-only" htmlFor="title">Lecture Title</label>
+            <input type="text" className="form-control" id="title"
               placeholder="Lecture Title"
               onChange={this.handleFormChange}/>
           </div>
           <div className="form-group">
-            <label className="sr-only" htmlFor="lecture_description">Lecture Description</label>
-            <textarea className="form-control" id="courese_description"
+            <label className="sr-only" htmlFor="ldescription">Lecture Description</label>
+            <textarea className="form-control" id="description"
               placeholder="Lecture Description"
               onChange={this.handleFormChange}/>
+          </div>
+          <div className="form-group">
+            <label className="sr-only" htmlFor="slides">Lecture Slides Upload</label>
+            <input type="file" id="slides"
+              ref={this.fileInput}/>
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
@@ -71,4 +81,12 @@ class AddLecture extends React.Component {
   }
 }
 
-export default connect()(AddLecture)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addLecture: (lecture, cb) => {
+      dispatch(LECTURE.ADD(lecture, cb))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AddLecture)

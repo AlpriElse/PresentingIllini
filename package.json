@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next src",
+    "dev": "node src/server.js",
     "build": "next build src",
     "heroku-postbuild": "next build src",
     "start": "next start src"

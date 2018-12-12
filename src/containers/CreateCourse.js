@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createCourse } from '../actions/course'
+import { addCourse } from '../actions/course'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
@@ -14,39 +14,35 @@ class CreateCourse extends React.Component {
       course_instructor: null,
       course_instructor_email: null
     }
-    this.handleFormChange = this.handleFormChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleFormChange(e) {
+  handleFormChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
   }
 
-  handleSubmit(e) {
-    const {dispatch} = this.props
-    dispatch(createCourse(this.state, this.createCallback))
+  handleSubmit = (e) => {
     e.preventDefault()
-  }
+    const {dispatch} = this.props
+    dispatch(addCourse(this.state, (message) => {
+      if (message == "Success") {
+        MySwal.fire({
+          title: "Successfully Added Course",
+          confirmButtonText: "Okay!",
+          type: "success",
+        }).then(() => {
+          window.location.href = "/courses";
+        })
+      } else if (message == "Error") {
+        MySwal.fire({
+          title: "Error when Added Course",
+          type: "error",
+          confirmButtonText: "Retry submission."
 
-  createCallback(message) {
-    if (message == "Success") {
-      MySwal.fire({
-        title: "Successfully Added Course",
-        confirmButtonText: "Okay!",
-        type: "success",
-      }).then(() => {
-        window.location.href = "http://localhost:3000/courses";
-      })
-    } else if (message == "Error") {
-      MySwal.fire({
-        title: "Error when Added Course",
-        type: "error",
-        confirmButtonText: "Retry submission."
-
-      })
-    }
+        })
+      }
+    }))
   }
 
   render() {
