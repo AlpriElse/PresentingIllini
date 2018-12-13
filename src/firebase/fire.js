@@ -32,9 +32,27 @@ export const firestore = {
       })
     })
   },
+  addLecture: (lecture) => {
+    console.log("CALLED ME")
+    return new Promise((resolve, reject) => {
+      resolve()
+      db.collection("lectures").add({
+        id: lecture.id,
+        title: lecture.title,
+        description: lecture.description,
+        slides_filename: lecture.slides_filename,
+        course_id: lecture.course_id
+      }).then((docRef) => {
+        console.log("Document written with ID: ", docRef.id)
+        resolve()
+      }).catch((error) => {
+        console.log("Error adding document:", error)
+        reject()
+      })
+    })
+  },
   fetchAllCourses: () => {
     return new Promise((resolve, reject) => {
-      console.log("IN PROMISE")
       db.collection("courses").get().then((snapshot) => {
         //  doc.id
         let courses = []
@@ -69,21 +87,62 @@ export const firestore = {
       })
     })
   },
-  addLecture: (lecture) => {
-
+  fetchLecture: (lecture_id) => {
+    return new Promise((resolve, reject) => {
+      db.collection("lectures").where('id', '==', lecture_id).get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            reject("Can't find requested lecture!")
+            return
+          }
+          let lectures = []
+          snapshot.forEach(doc => {
+            lectures.push(doc.data())
+          })
+          resolve(lectures[0])
+        })
+    }).catch(err => {
+      console.log("Error getting documents", err)
+      reject("Error getting documents")
+    })
+  },
+  fetchAllLectures: (course_id) => {
+    return new Promise((resolve, reject) => {
+      db.collection("lectures").where('course_id', '==', course_id).get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            resolve([])
+            return
+          }
+          let lectures = []
+          snapshot.forEach(doc => {
+            lectures.push(doc.data())
+          })
+          resolve(lectures)
+        })
+        .catch(err => {
+          console.log('Error getting documents', err)
+          reject("Error getting documents")
+        })
+    })
   }
-
 }
 
 export const cloudstore = {
-  uploadLecture: (slides) => {
-    console.log(slides)
+  uploadLectureSlides: (slides) => {
     return new Promise((resolve, reject) => {
-      console.log(slides.name)
-      let slidesRef = storageRef.child(slides.name)
-      slidesRef.put(slides).then((snapshot) => {
+      let slidesRef = storageRef.child(slides.filename)
+      slidesRef.put(slides.file).then((snapshot) => {
         console.log("Uploading lecture...")
         resolve()
+      })
+    })
+  },
+  fetchLectureSlides: (slides_filename) => {
+    return new Promise((resolve, reject) => {
+      let slidesRef = storageRef.child(slides_filename)
+      slidesRef.getDownloadURL().then((url) => {
+        resolve(url)
       })
     })
   }

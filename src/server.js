@@ -9,6 +9,7 @@ const next = require('next')
 const routes = require('./routes')
 const api_routes = require('./routes/api.js')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const port = process.env.PORT || 5000
 const dev = process.env.NODE_ENV !== 'production'
@@ -21,7 +22,8 @@ const handler = routes.getRequestHandler(app)
 console.log("Starting server...")
 app.prepare().then(() => {
   const server = express()
-
+  
+  server.use(cors())
   server.use(bodyParser.json())
   server.use(bodyParser.urlencoded({ extended: true }))
 

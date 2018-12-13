@@ -1,8 +1,9 @@
 import {
   SET_USER,
   FETCH_ALL_COURSES,
-  FETCH_COURSE
-} from '../constants/ActionTypes'
+  FETCH_ALL_LECTURES,
+  FETCH_COURSE,
+  FETCH_LECTURE_SLIDES } from '../constants/ActionTypes'
 
 import {exampleInitialState} from '../redux/initialState'
 
@@ -20,6 +21,14 @@ const reducer = (state = exampleInitialState, action) => {
     case FETCH_COURSE.SUCCESS:
     case FETCH_COURSE.FAILURE:
       return fetchCourseHandler(state, action)
+    case FETCH_ALL_LECTURES.REQUEST:
+    case FETCH_ALL_LECTURES.SUCCESS:
+    case FETCH_ALL_LECTURES.FAILURE:
+      return fetchAllLecturesHandler(state, action)
+    case FETCH_LECTURE_SLIDES.REQUEST:
+    case FETCH_LECTURE_SLIDES.SUCCESS:
+    case FETCH_LECTURE_SLIDES.FAILURE:
+      return fetchLectureSlidesHandler(state, action)
     default: return state
   }
 }
@@ -29,7 +38,8 @@ const fetchAllCoursesHandler = (state, action) => {
     case FETCH_ALL_COURSES.REQUEST:
       return Object.assign({}, state, {
         courses: {
-          isFetching: true
+          isFetching: true,
+          ...state.courses
         }
       })
     case FETCH_ALL_COURSES.SUCCESS:
@@ -42,17 +52,17 @@ const fetchAllCoursesHandler = (state, action) => {
       })
     case FETCH_ALL_COURSES.FAILURE:
       //  TODO: Handle Failures
-      break;
+      return state
   }
 }
 
 const fetchCourseHandler = (state, action) => {
-  console.log("ACTION:", action)
   switch (action.type) {
     case FETCH_COURSE.REQUEST:
       return Object.assign({}, state, {
         course: {
-          isFetching: true
+          isFetching: true,
+          ...state.course
         }
       })
     case FETCH_COURSE.SUCCESS:
@@ -65,10 +75,88 @@ const fetchCourseHandler = (state, action) => {
       })
     case FETCH_COURSE.FAILURE:
       //  TODO: Handle Failures
-      break;
+      return state
   }
 }
 
+const fetchAllLecturesHandler = (state, action) => {
+  switch (action.type) {
+    case FETCH_ALL_LECTURES.REQUEST:
+      return Object.assign({}, state, {
+        lectures: {
+          isFetching: true,
+          ...state.lectures
+        }
+      })
+    case FETCH_ALL_LECTURES.SUCCESS:
+      return Object.assign({}, state, {
+        lectures: {
+          isFetching: false,
+          invalid: false,
+          items: action.lectures
+        }
+      })
+    case FETCH_ALL_LECTURES.FAILURE:
+      //  TODO: Handle Failures
+      return state
+  }
+}
+
+const fetchLectureHandler = (state, action) => {
+  switch (action.type) {
+    case FETCH_LECTURE.REQUEST:
+      return Object.assign({}, state, {
+        lecture: {
+          isFetching: true,
+          ...state.lecture
+        }
+      })
+    case FETCH_LECTURE.SUCCESS:
+      return Object.assign({}, state, {
+        lecture: {
+          isFetching: false,
+          invalid: false,
+          items: action.lecture
+        }
+      })
+    case FETCH_LECTURE.FAILURE:
+      return Object.assign({}, state, {
+        lecture: {
+          isFetching: false,
+          ...state.lecture
+        }
+      })
+  }
+}
+
+const fetchLectureSlidesHandler = (state, action) => {
+  switch (action.type) {
+    case FETCH_LECTURE_SLIDES.REQUEST:
+      return Object.assign({}, state, {
+        slides: {
+          isFetching: true,
+          ...state.slides
+        }
+      })
+    case FETCH_LECTURE_SLIDES.SUCCESS:
+      console.log("HELLO WORLD")
+      return Object.assign({}, state, {
+        slides: {
+          isFetching: false,
+          invalid: false,
+          items: action.slides
+        }
+      })
+    case FETCH_LECTURE_SLIDES.FAILURE:
+      return Object.assign({}, state, {
+        slides: {
+          isFetching: false,
+          invalid: true,
+          ...state.slides
+        }
+      })
+  }
+}
 
 
 export default reducer

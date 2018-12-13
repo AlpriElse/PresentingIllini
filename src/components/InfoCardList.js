@@ -23,7 +23,7 @@ export default class InfoCardList extends React.Component {
   }
 
   renderLectureList() {
-    if (this.props.courses == undefined) {
+    if (this.props.lectures == undefined || this.props.lectures.length == 0) {
       return (
         <div className="col-12">
           <div className="card">
@@ -38,14 +38,14 @@ export default class InfoCardList extends React.Component {
     return (
       this.props.lectures.map((e) => {
         let date = Moment(e.date).format("MMMM, Do YYYY")
-        let link = "/course/" + this.props.data.course_id + "/lecture/"
-          + e.lecture_id;
+        let link = "/course/" + this.props.course_id + "/lecture/"
+          + e.id;
 
         return (
           <LectureInfoCard
             date={date}
-            lecture_title={e.lecture_title}
-            lecture_description={e.lecture_description}
+            lecture_title={e.title}
+            lecture_description={e.description}
             link={link}/>
         )
       })

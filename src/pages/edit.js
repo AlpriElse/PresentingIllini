@@ -23,7 +23,7 @@ class Edit extends React.Component {
         editor = <CreateCourse/>
         break;
       case "addLecture":
-        editor = <AddLecture/>
+        editor = <AddLecture course_id={this.props.course_id}/>
         break;
       default:
         editor = <h1>Error</h1>

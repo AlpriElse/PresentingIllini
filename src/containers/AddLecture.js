@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { LECTURE } from '../actions/lecture'
+import { Lecture } from '../actions/lecture'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
@@ -24,10 +24,10 @@ class AddLecture extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.addLecture({
-    title: this.state.title,
-    description: this.state.description,
-    slides: this.fileInput.current.files[0]
-
+      course_id: this.props.course_id,
+      title: this.state.title,
+      description: this.state.description,
+      slides: this.fileInput.current.files[0]
     }, (message) => {
       if (message == "Success") {
         MySwal.fire({
@@ -35,7 +35,7 @@ class AddLecture extends React.Component {
           confirmButtonText: "Okay!",
           type: "success",
         }).then(() => {
-          window.location.href = "/courses";
+          window.location.href = "/course/" + this.props.course_id;
         })
       } else if (message == "Error") {
         MySwal.fire({
@@ -81,10 +81,11 @@ class AddLecture extends React.Component {
   }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addLecture: (lecture, cb) => {
-      dispatch(LECTURE.ADD(lecture, cb))
+      dispatch(Lecture.add(lecture, cb))
     }
   }
 }

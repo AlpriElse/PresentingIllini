@@ -19,8 +19,9 @@ class Page extends React.Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  const { user } = state
-  return { user }
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
 }
-export default connect(mapStateToProps)(Page)
+export default connect(mapStateToProps, null)(Page)

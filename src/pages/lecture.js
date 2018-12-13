@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Page from '../containers/Page'
 import PDFViewer from '../components/PDFViewer'
+import { Lecture as LectureActions } from '../actions/lecture'
+import Loading from '../components/Loading'
 
 class Lecture extends React.Component {
   constructor(props) {
@@ -11,7 +13,6 @@ class Lecture extends React.Component {
       numPages: null
     }
   }
-
   static async getInitialProps ({query}) {
     return ({
       course_id: query.course_id,
@@ -19,14 +20,28 @@ class Lecture extends React.Component {
     })
   }
 
+  componentDidMount() {
+    this.props.loadSlides(this.props.lecture_id)
+  }
   render() {
+    console.log("FILELINK", this.props.slides.items)
+
+    let slides = this.props.slides
+    let isLoading = slides.isFetching || slides.invalid
+    let content = isLoading ? (
+      <Loading />
+    ) : (
+      <PDFViewer fileLink={this.props.slides.items}/>
+    )
+
+
     return (
       <Page>
         <div>
           <br/>
           <h2>Lecture</h2>
           <div className="justify-content-center">
-            <PDFViewer fileLink="http://localhost:3000/api/givePDF"/>
+             { content }
           </div>
         </div>
       </Page>
@@ -34,4 +49,18 @@ class Lecture extends React.Component {
   }
 }
 
-export default connect()(Lecture)
+const mapStateToProps = state => {
+  return {
+    slides: state.slides
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadSlides: (filename) => {
+      dispatch(LectureActions.fetchSlides(filename))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lecture)
