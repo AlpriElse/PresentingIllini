@@ -5,9 +5,9 @@ import {
   FETCH_COURSE,
   FETCH_LECTURE_SLIDES } from '../constants/ActionTypes'
 
-import {exampleInitialState} from '../redux/initialState'
+import { initialState } from '../redux/initialState'
 
-const reducer = (state = exampleInitialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
       return Object.assign({}, state, {
@@ -139,7 +139,6 @@ const fetchLectureSlidesHandler = (state, action) => {
         }
       })
     case FETCH_LECTURE_SLIDES.SUCCESS:
-      console.log("HELLO WORLD")
       return Object.assign({}, state, {
         slides: {
           isFetching: false,

@@ -78,7 +78,6 @@ export const Lecture = {
     dispatch(addLectureRequest(lecture))
     return firestore.addLecture(lecture_info).then(
       res => {
-        console.log("Hello")
         return cloudstore.uploadLectureSlides(lecture_slides).then(
           res => {
             cb("Success")

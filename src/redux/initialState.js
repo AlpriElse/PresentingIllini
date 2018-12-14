@@ -1,4 +1,4 @@
-export const exampleInitialState = {
+export const initialState = {
   user: "",
   courses: {
     isFetching: false,

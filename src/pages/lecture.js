@@ -4,6 +4,8 @@ import Page from '../containers/Page'
 import PDFViewer from '../components/PDFViewer'
 import { Lecture as LectureActions } from '../actions/lecture'
 import Loading from '../components/Loading'
+import StudentToolbar from '../containers/StudentToolbar'
+import InstructorToolbar from '../containers/InstructorToolbar'
 
 class Lecture extends React.Component {
   constructor(props) {
@@ -14,9 +16,11 @@ class Lecture extends React.Component {
     }
   }
   static async getInitialProps ({query}) {
+    // console.log(query.lec)
     return ({
       course_id: query.course_id,
-      lecture_id: query.lecture_id
+      lecture_id: query.lecture_id,
+      isInstructor: query.instructor != undefined
     })
   }
 
@@ -24,14 +28,16 @@ class Lecture extends React.Component {
     this.props.loadSlides(this.props.lecture_id)
   }
   render() {
-    console.log("FILELINK", this.props.slides.items)
-
     let slides = this.props.slides
     let isLoading = slides.isFetching || slides.invalid
+    let toolbar = this.props.isInstructor ? <InstructorToolbar/> : <StudentToolbar/>
     let content = isLoading ? (
       <Loading />
     ) : (
-      <PDFViewer fileLink={this.props.slides.items}/>
+      <div>
+        { toolbar }
+        <PDFViewer fileLink={this.props.slides.items}/>
+      </div>
     )
 
 
@@ -39,7 +45,6 @@ class Lecture extends React.Component {
       <Page>
         <div>
           <br/>
-          <h2>Lecture</h2>
           <div className="justify-content-center">
              { content }
           </div>
