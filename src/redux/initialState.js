@@ -5,20 +5,10 @@ export const initialState = {
     invalid: true,
     items: []
   },
-  course: {
-    isFetching: false,
-    invalid: true,
-    items: {}
-  },
   lectures: {
     isFetching: false,
     invalid: true,
     items: []
-  },
-  lecture: {
-    isFetching: false,
-    invalid: true,
-    items: {}
   },
   slides: {
     isFetching: false,

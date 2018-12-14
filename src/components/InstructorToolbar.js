@@ -1,6 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { instructorSocket } from '../sockets/client-instructor'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
+
 class InstructorToolbar extends React.Component {
   constructor(props) {
     super(props)
@@ -11,11 +14,22 @@ class InstructorToolbar extends React.Component {
     //  TODO: Replace with actual lecture_id
     instructorSocket.connect(this.props.lecture_id)
 
-    instructorSocket.subscribe.recieveQuestion((question) => {
-      console.log("Hello")
+    instructorSocket.subscribe.question((question) => {
       this.setState(state => ({
         questions: state.questions.concat(question)
       }))
+    })
+  }
+
+  createPoll = () => {
+    Swal({
+      title: 'Are you sure?',
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+    }).then((data) => {
+      if (data.value) {
+        instructorSocket.create.poll({})
+      }
     })
   }
 
@@ -28,7 +42,7 @@ class InstructorToolbar extends React.Component {
     }
 
     return (
-      <ul className="nav nav-pills">
+      <ul className="nav nav-pills nav-fill">
         <li className="nav-item dropdown">
           <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           Questions {
@@ -42,13 +56,11 @@ class InstructorToolbar extends React.Component {
             }
           </div>
         </li>
+        <li className="nav-item">
+          <span className="nav-link" role="button" onClick={this.createPoll}>Create Poll</span>
+        </li>
       </ul>
     )
   }
 }
-
-const mapStateToProps = state => ({
-  lecture_id: state.lecture.items.lecture_id
-})
-
-export default connect(mapStateToProps, null)(InstructorToolbar)
+export default InstructorToolbar

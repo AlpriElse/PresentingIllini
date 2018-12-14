@@ -6,9 +6,13 @@ const initSocketListening = (port) => {
       socket.join(lecture_id)
     })
 
-    socket.on('askQuestion', (data) => {
+    socket.on('createQuestion', (data) => {
       io.sockets.emit('recieveQuestion', data.question)
       //  io.sockets.in(data.lecture_id).emit('recieveQuestion', data.question)
+    })
+
+    socket.on('createPoll', (data) => {
+      io.sockets.emit('recievePoll', data)
     })
   })
   io.listen(port)

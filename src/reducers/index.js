@@ -60,17 +60,17 @@ const fetchCourseHandler = (state, action) => {
   switch (action.type) {
     case FETCH_COURSE.REQUEST:
       return Object.assign({}, state, {
-        course: {
+        courses: {
           isFetching: true,
-          ...state.course
+          ...state.courses
         }
       })
     case FETCH_COURSE.SUCCESS:
       return Object.assign({}, state, {
-        course: {
+        courses: {
           isFetching: false,
           invalid: false,
-          items: action.course
+          items: state.courses.items.concat(action.course)
         }
       })
     case FETCH_COURSE.FAILURE:
@@ -106,24 +106,24 @@ const fetchLectureHandler = (state, action) => {
   switch (action.type) {
     case FETCH_LECTURE.REQUEST:
       return Object.assign({}, state, {
-        lecture: {
+        lectures: {
           isFetching: true,
-          ...state.lecture
+          ...state.lectures
         }
       })
     case FETCH_LECTURE.SUCCESS:
       return Object.assign({}, state, {
-        lecture: {
+        lectures: {
           isFetching: false,
           invalid: false,
-          items: action.lecture
+          items: state.lectures.concat(action.lecture)
         }
       })
     case FETCH_LECTURE.FAILURE:
       return Object.assign({}, state, {
-        lecture: {
+        lectures: {
           isFetching: false,
-          ...state.lecture
+          ...state.lectures
         }
       })
   }

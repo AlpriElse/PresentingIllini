@@ -7,14 +7,24 @@ const connect = (lecture_id) => {
   })
 }
 
-const askQuestion = (lecture_id, question) => {
-  socket.emit('askQuestion', {
-    lecture_id,
-    question
-  })
+const subscribe = {
+  poll: (cb) => {
+    socket.on('recievePoll', (poll) => {
+      cb(poll)
+    })
+  }
+}
+
+const create = {
+  question: (lecture_id, question) => {
+    socket.emit('createQuestion', {
+      lecture_id, question
+    })
+  }
 }
 
 export const studentSocket = {
   connect,
-  askQuestion
+  create,
+  subscribe
 }

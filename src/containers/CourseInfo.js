@@ -13,35 +13,58 @@ const Style = {
 class CourseInfo extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      course: undefined
+    }
+  }
+
+  componentWillReceiveProps () {
+    let course = this.props.courses.items.find((course) => {
+      return course.course_id == this.props.course_id
+    })
+
+    if (course != undefined && this.state.course == undefined) {
+      this.setState({
+        course: course
+      })
+
+    }
   }
 
   componentDidMount() {
-    this.props.loadCourse(this.props.course_id)
+    if ( this.props.courses.invalid ) {
+      this.props.loadCourse(this.props.course_id)
+    } else {
+      this.loadCourseIntoState()
+    }
     this.props.loadLectures(this.props.course_id)
   }
 
   render() {
-    console.log(this.props.lectures)
-    let course = this.props.course
-    let course_info = this.props.course.items
+    let isFetching = this.props.courses.isFetching,
+        invalid = this.props.courses.invalid
+
+    let course = this.state.course
     let lectures = this.props.lectures
-    let isLoading = (course.isFetching || course.invalid) ||
-      lectures.isFetching || lectures.invalid
+
+    let isLoading = isFetching || invalid ||
+      lectures.isFetching || lectures.invalid || course == undefined
+
     let Content = (
       !isLoading ?
       <div>
-        <h2>{course_info.course_title}</h2>
-        <p>{course_info.course_description}</p>
+        <h2>{course.course_title}</h2>
+        <p>{course.course_description}</p>
         <div>
           <h4>Lectures</h4>
           <div className="row">
             <InfoCardList type="lectures"
               lectures={lectures.items}
-              course_id={course_info.course_id}/>
+              course_id={course.course_id}/>
             {
-              !(course_info == undefined) &&
-                <AddLectureInfoCard course_title={course_info.course_title}
-                course_id={course_info.course_id}/>
+              course != undefined &&
+                <AddLectureInfoCard course_title={course.course_title}
+                course_id={course.course_id}/>
             }
           </div>
         </div>
@@ -57,7 +80,7 @@ class CourseInfo extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    course: state.course,
+    courses: state.courses,
     lectures: state.lectures
   }
 }

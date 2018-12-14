@@ -4,8 +4,8 @@ import Page from '../containers/Page'
 import PDFViewer from '../components/PDFViewer'
 import { Lecture as LectureActions } from '../actions/lecture'
 import Loading from '../components/Loading'
-import StudentToolbar from '../containers/StudentToolbar'
-import InstructorToolbar from '../containers/InstructorToolbar'
+import StudentToolbar from '../components/StudentToolbar'
+import InstructorToolbar from '../components/InstructorToolbar'
 
 class Lecture extends React.Component {
   constructor(props) {

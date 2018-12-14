@@ -8,13 +8,21 @@ const connect = (lecture_id) => {
 }
 
 const subscribe = {
-  recieveQuestion: (cb) => {
+  question: (cb) => {
     socket.on('recieveQuestion', (question) => {
       cb(question)
     })
   }
 }
+
+const create = {
+  poll: (poll) => {
+    socket.emit('createPoll', poll)
+  }
+}
+
 export const instructorSocket = {
   connect,
-  subscribe
+  subscribe,
+  create
 }

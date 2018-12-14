@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Page from '../containers/Page'
 
-import LoginPage from '../containers/LoginPage'
+import LoginPage from '../components/LoginPage'
 
 class Index extends React.Component {
   render() {
