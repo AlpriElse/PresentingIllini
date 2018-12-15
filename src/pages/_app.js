@@ -6,16 +6,16 @@ import { Provider } from 'react-redux'
 import {createCourse} from '../actions/course.js'
 
 class MyApp extends App {
-  render () {
-    const {Component, pageProps, reduxStore} = this.props
-    return (
-      <Container>
-        <Provider store={reduxStore}>
-          <Component {...pageProps} />
-        </Provider>
-      </Container>
-    )
-  }
+	render () {
+		const {Component, pageProps, reduxStore} = this.props
+		return (
+			<Container>
+				<Provider store={reduxStore}>
+					<Component {...pageProps} />
+				</Provider>
+			</Container>
+		)
+	}
 }
 
 

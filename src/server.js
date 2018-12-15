@@ -10,37 +10,37 @@ const initSockets = require('./sockets/api')
 //  Setup env vars
 const result = require('dotenv').config()
 if (result.error) {
-  throw result.error
+	throw result.error
 }
 
 const port = process.env.PORT || 5000
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({
-  dev,
-  dir: './src'
+	dev,
+	dir: './src'
 })
 const handler = routes.getRequestHandler(nextApp)
-console.log("Starting server...")
+console.log('Starting server...')
 nextApp.prepare().then(() => {
-  const app = express()
-  const server = require('http').Server(app)
+	const app = express()
+	const server = require('http').Server(app)
 
-  app.use(cors())
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
+	app.use(cors())
+	app.use(bodyParser.json())
+	app.use(bodyParser.urlencoded({ extended: true }))
 
-  //  Used for holding temporary data for unmade API/Fiebase
-  //  connections
-  app.use('/api', api_routes)
+	//  Used for holding temporary data for unmade API/Fiebase
+	//  connections
+	app.use('/api', api_routes)
 
-  app.use(handler)
+	app.use(handler)
 
 
 
-  server.listen(port, (err) => {
-    if (err) throw err
-    console.log('> Ready on http://localhost:', port)
-  })
+	server.listen(port, (err) => {
+		if (err) throw err
+		console.log('> Ready on http://localhost:', port)
+	})
 })
 
 //  Start socketio

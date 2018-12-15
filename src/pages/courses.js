@@ -5,8 +5,8 @@ import Page from '../containers/Page'
 import CourseList from '../containers/CourseList'
 
 const Courses = () => (
-  <Page>
-    <CourseList/>
-  </Page>
+	<Page>
+		<CourseList/>
+	</Page>
 )
 export default connect()(Courses)
