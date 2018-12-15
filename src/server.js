@@ -1,7 +1,6 @@
 const express = require('express')
 const next = require('next')
 const routes = require('./routes')
-const api_routes = require('./routes/api.js')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const initSockets = require('./sockets/api')
@@ -28,10 +27,6 @@ nextApp.prepare().then(() => {
 	app.use(cors())
 	app.use(bodyParser.json())
 	app.use(bodyParser.urlencoded({ extended: true }))
-
-	//  Used for holding temporary data for unmade API/Fiebase
-	//  connections
-	app.use('/api', api_routes)
 
 	app.use(handler)
 

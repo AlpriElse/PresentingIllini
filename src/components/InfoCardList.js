@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Moment from 'moment'
-import CourseInfoCard from './CourseInfoCard'
-import LectureInfoCard from './LectureInfoCard'
+import { CourseInfoCard } from './CourseInfoCard'
+import { LectureInfoCard } from './LectureInfoCard'
 
 export default class InfoCardList extends React.Component {
 	constructor(props) {
@@ -23,7 +25,7 @@ export default class InfoCardList extends React.Component {
 	}
 
 	renderLectureList() {
-		if (this.props.lectures == undefined || this.props.lectures.length == 0) {
+		if (this.props.lectures.length == 0) {
 			return (
 				<div className="col-12">
 					<div className="card">
@@ -62,4 +64,13 @@ export default class InfoCardList extends React.Component {
 			break
 		}
 	}
+}
+
+InfoCardList.defaultProps = {
+	courses: [],
+	lectures: []
+}
+
+InfoCardList.propTypes = {
+	type: PropTypes.string.isRequired
 }

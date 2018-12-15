@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import InfoCardList from '../components/InfoCardList'
-import Loading from '../components/Loading'
+import { Loading } from '../components/Loading'
 import AddCourseInfoCard from '../components/AddCourseInfoCard'
 import { fetchAllCourses } from '../actions/course.js'
 

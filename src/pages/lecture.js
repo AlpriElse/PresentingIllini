@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Page from '../containers/Page'
 import PDFViewer from '../components/PDFViewer'
 import { Lecture as LectureActions } from '../actions/lecture'
-import Loading from '../components/Loading'
+import { Loading } from '../components/Loading'
 import StudentToolbar from '../components/StudentToolbar'
 import InstructorToolbar from '../components/InstructorToolbar'
 

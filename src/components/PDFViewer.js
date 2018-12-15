@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { Document } from 'react-pdf'
 import { Page } from 'react-pdf' // Name conflict
 import { pdfjs } from 'react-pdf'
@@ -42,5 +44,7 @@ export default class PDFViewer extends React.Component {
 			</div>
 		)
 	}
-
+}
+PDFViewer.propTypes = {
+	fileLink: PropTypes.string.isRequired
 }

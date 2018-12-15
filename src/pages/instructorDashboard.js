@@ -1,11 +1,16 @@
 import React from 'react'
 import { Nav,
-	NavItem,
-	NavLink,
-	Row,
-	Col} from 'reactstrap'
+  NavItem,
+  NavLink,
+  Col} from 'reactstrap'
 import { connect } from 'react-redux'
 import Page from '../containers/Page'
+
+
+const sidebarStyle = {
+  backgroundColor: "#EDEDED",
+  height: "100%"
+}
 
 class InstructorDashboard extends React.Component {
 	constructor(props) {
@@ -16,33 +21,16 @@ class InstructorDashboard extends React.Component {
 	render() {
 		return (
 			<Page>
-				<Row>
-					<Col xs="2">
-						<p>List Based</p>
-						<Nav vertical>
-							<NavItem>
-								<NavLink href="#">Link</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="#">Link</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="#">Another Link</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink disabled href="#">Disabled Link</NavLink>
-							</NavItem>
-						</Nav>
-						<hr />
-						<p>Link based</p>
-						<Nav vertical>
-							<NavLink href="#">Link</NavLink>
-							<NavLink href="#">Link</NavLink>
-							<NavLink href="#">Another Link</NavLink>
-							<NavLink disabled href="#">Disabled Link</NavLink>
-						</Nav>
-					</Col>
-				</Row>
+        <Col xs="3" style={sidebarStyle}>
+          <Nav vertical>
+            <NavItem>
+              <NavLink className="text-primary">Dashboard</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="text-primary">Manage Courses</NavLink>
+            </NavItem>
+          </Nav>
+        </Col>
 			</Page>
 		)
 	}

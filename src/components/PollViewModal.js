@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 
 class PollViewModal extends React.Component {
@@ -46,3 +48,10 @@ class PollViewModal extends React.Component {
 }
 
 export default PollViewModal
+
+
+PollViewModal.propTypes = {
+  isopen: PropTypes.bool.isRequired,
+  confirm: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired
+}

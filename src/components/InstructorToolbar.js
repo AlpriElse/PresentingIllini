@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { instructorSocket } from '../sockets/client-instructor'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -64,3 +66,8 @@ class InstructorToolbar extends React.Component {
   }
 }
 export default InstructorToolbar
+
+
+InstructorToolbar.propTypes = {
+  lecture_id: PropTypes.string.isRequired
+}
