@@ -65,9 +65,8 @@ class StudentToolbar extends React.Component {
     )
   }
 }
-
-export default StudentToolbar
-
 StudentToolbar.propTypes = {
   lecture_id: PropTypes.string.isRequired
 }
+
+export default StudentToolbar

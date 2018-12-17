@@ -11,7 +11,7 @@ class CreateCourse extends React.Component {
     this.state = {
       course_title: null,
       course_description: null,
-      course_instructor: null,
+      instructor: null,
       course_instructor_email: null
     }
   }
@@ -65,14 +65,14 @@ class CreateCourse extends React.Component {
               onChange={this.handleFormChange}/>
           </div>
           <div className="form-group">
-            <label className="sr-only" htmlFor="course_instructor">Instructor Name</label>
-            <input type="text" className="form-control" id="course_instructor"
+            <label className="sr-only" htmlFor="instructor">Instructor Name</label>
+            <input type="text" className="form-control" id="instructor"
               placeholder="Instructor Name"
               onChange={this.handleFormChange}/>
           </div>
           <div className="form-group">
-            <label className="sr-only" htmlFor="course_instructor_email">Instructor Email Address</label>
-            <input type="email" className="form-control" id="course_instructor_email"
+            <label className="sr-only" htmlFor="instructor_email">Instructor Email Address</label>
+            <input type="email" className="form-control" id="instructor_email"
               placeholder="Instructor Email"
               onChange={this.handleFormChange}/>
           </div>

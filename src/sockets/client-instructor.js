@@ -2,9 +2,8 @@ import io from 'socket.io-client'
 const socket = io('http://localhost:3000')
 
 const connect = (lecture_id) => {
-	socket.on('connect', () => {
-		socket.emit('lecture', lecture_id)
-	})
+	socket.emit('joinLecture', lecture_id)
+	console.log("running")
 }
 
 const subscribe = {

@@ -30,7 +30,7 @@ class Lecture extends React.Component {
 	render() {
 		let slides = this.props.slides
 		let isLoading = slides.isFetching || slides.invalid
-		let toolbar = this.props.isInstructor ? <InstructorToolbar/> : <StudentToolbar/>
+		let toolbar = this.props.isInstructor ? <InstructorToolbar lecture_id={this.props.lecture_id}/> : <StudentToolbar lecture_id={this.props.lecture_id}/>
 		let content = isLoading ? (
 			<Loading />
 		) : (
