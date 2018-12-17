@@ -3,7 +3,6 @@ const socket = io('http://localhost:3000')
 
 const connect = (lecture_id) => {
 	socket.emit('joinLecture', lecture_id)
-	console.log("runniing")
 }
 
 const subscribe = {
@@ -18,6 +17,16 @@ const create = {
 	question: (lecture_id, question) => {
 		socket.emit('createQuestion', {
 			lecture_id, question
+		})
+	},
+	slideChange: (lecture_id, slide_number, user) => {
+		socket.emit('slideChange', {
+			lecture_id, slide_number, user
+		})
+	},
+	pollSubmission: (lecture_id, pollId, submission) => {
+		socket.emit('createPollSubmission', {
+			lecture_id, pollId, submission
 		})
 	}
 }

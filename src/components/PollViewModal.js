@@ -22,6 +22,7 @@ class PollViewModal extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
       <Modal isOpen={this.props.isopen}>
@@ -37,7 +38,7 @@ class PollViewModal extends React.Component {
           onClick={() => { this.onClickHandler(3)}}>D</Button>
       </ModalBody>
       <ModalFooter>
-      <Button color="primary" onClick={this.props.confirm}>Submit Answers</Button>{' '}
+      <Button color="primary" onClick={() => (this.props.confirm(this.state.selected))}>Submit Answers</Button>{' '}
       <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
       </ModalFooter>
       </Modal>

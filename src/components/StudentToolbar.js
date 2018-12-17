@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -12,24 +13,30 @@ class StudentToolbar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showPollViewModal: false
+      showPollViewModal: false,
+      pageNumber: null,
+      currentPoll: null
+
     }
     //  TODO: Replace with actual lecture_id
     studentSocket.connect(this.props.lecture_id)
     studentSocket.subscribe.poll((poll) => {
-      console.log("RECIEVED")
-      this.togglePollViewModal()
+      this.setState(state => ({
+        showPollViewModal: !state.showPollViewModal,
+        currentPoll: poll
+      }))
     })
 
   }
 
-  togglePollViewModal = () => {
-    this.setState(state => ({
-      showPollViewModal: !state.showPollViewModal
-    }))
+  componentWillReceiveProps() {
+    if (this.state.pageNumber != this.props.pageNumber) {
+      studentSocket.create.slideChange(this.props.lecture_id, this.props.pageNumber, this.props.user)
+      this.setState({
+        pageNumber: this.props.pageNumber
+      })
+    }
   }
-
-
 
   askQuestionHandler = () => {
     Swal({
@@ -47,11 +54,23 @@ class StudentToolbar extends React.Component {
     })
   }
 
-  handlePollSubmit = () => {
+  togglePollViewModal = () => {
+    this.setState(state => ({
+      showPollViewModal: !state.showPollViewModal
+    }))
+  }
 
+  handlePollSubmit = (answers) => {
+    this.togglePollViewModal()
+    studentSocket.create.pollSubmission(
+      this.props.lecture_id,
+      this.state.currentPoll.pollId,
+      answers
+    )
   }
 
   render() {
+    console.log("Open", this.state.showPollViewModal)
     return (
       <div>
         <PollViewModal
@@ -66,7 +85,13 @@ class StudentToolbar extends React.Component {
   }
 }
 StudentToolbar.propTypes = {
-  lecture_id: PropTypes.string.isRequired
+  lecture_id: PropTypes.string.isRequired,
+  pageNumber: PropTypes.number.isRequired
 }
 
-export default StudentToolbar
+const mapStateToProps = state => ({
+  user: state.user,
+  pageNumber: state.pageNumber
+})
+
+export default connect(mapStateToProps, null)(StudentToolbar)

@@ -14,5 +14,6 @@ export const initialState = {
 		isFetching: false,
 		invalid: true,
 		items: null
-	}
+	},
+	pageNumber: -1
 }

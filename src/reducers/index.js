@@ -4,7 +4,8 @@ import {
 	FETCH_ALL_LECTURES,
 	FETCH_COURSE,
 	FETCH_LECTURE_SLIDES,
-	FETCH_LECTURE } from '../constants/ActionTypes'
+	FETCH_LECTURE,
+ 	CHANGE_PAGE } from '../constants/ActionTypes'
 
 import { initialState } from '../redux/initialState'
 
@@ -34,6 +35,10 @@ const reducer = (state = initialState, action) => {
 	case FETCH_LECTURE_SLIDES.SUCCESS:
 	case FETCH_LECTURE_SLIDES.FAILURE:
 		return fetchLectureSlidesHandler(state, action)
+	case CHANGE_PAGE:
+		return Object.assign({}, state, {
+			pageNumber: action.page
+		})
 	default: return state
 	}
 }

@@ -2,7 +2,8 @@ import { makeActionCreator } from './util.js'
 import { ADD_LECTURE,
 	FETCH_ALL_LECTURES,
 	FETCH_LECTURE,
-	FETCH_LECTURE_SLIDES } from '../constants/ActionTypes'
+	FETCH_LECTURE_SLIDES,
+ 	CHANGE_PAGE } from '../constants/ActionTypes'
 import { firestore, cloudstore } from '../firebase/fire'
 import uniqueString from 'unique-string'
 
@@ -139,5 +140,9 @@ export const Lecture = {
 				dispatch(fetchLectureSlidesFailure(err))
 			}
 		)
-	}
+	},
+	changePage: page => ({
+		type: CHANGE_PAGE,
+		page
+	})
 }

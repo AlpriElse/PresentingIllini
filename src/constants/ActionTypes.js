@@ -19,3 +19,6 @@ export const ADD_LECTURE = createAsyncActionStrings('ADD_LECTURE')
 export const FETCH_ALL_LECTURES = createAsyncActionStrings('FETCH_ALL_LECTURES')
 export const FETCH_LECTURE = createAsyncActionStrings('FETCH_LECTURE')
 export const FETCH_LECTURE_SLIDES = createAsyncActionStrings('FETCH_LECTURE_SLIDES')
+
+//	Live Lecture Actions
+export const CHANGE_PAGE = 'CHANGE_PAGE'

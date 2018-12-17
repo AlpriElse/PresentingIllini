@@ -13,7 +13,15 @@ const initSocketListening = (port) => {
 		})
 
 		socket.on('createPoll', (data) => {
-			io.sockets.emit('recievePoll', data)
+			io.sockets.in(data.lecture_id).emit('recievePoll', data)
+		})
+
+		socket.on('slideChange', (data) => {
+			io.sockets.in(data.lecture_id).emit('recieveSlideChange', data)
+		})
+
+		socket.on('createPollSubmission', (data) => {
+			io.sockets.in(data.lecture_id).emit('recievePollSubmission', data)
 		})
 	})
 	io.listen(port)
