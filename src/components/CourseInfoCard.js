@@ -1,21 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import {
+	Col,
+	Card,
+	CardBody,
+	CardTitle,
+	CardSubtitle,
+	CardText } from 'reactstrap'
 const Style = {
 	margin: '15px 0'
 }
 
 export const CourseInfoCard = (props) => (
-	<div className="col-6">
-		<div className="card" style={Style}>
-			<div className="card-body">
-				<h4 className="card-title">{props.course_title}</h4>
-				<h5 className="card-title">{props.instructor}</h5>
-				<p className="card-text">{props.course_description}</p>
+	<Col md="6">
+		<Card style={Style}>
+			<CardBody>
+				<CardTitle>{props.course_title}</CardTitle>
+				<CardSubtitle>{props.instructor}</CardSubtitle>
+				<CardText>{props.course_description}</CardText>
 				<a role="button" className="btn btn-primary" href={'/course/' + props.course_id}>Go to Course</a>
-			</div>
-		</div>
-	</div>
+			</CardBody>
+		</Card>
+	</Col>
 )
 
 CourseInfoCard.defaultProps = {

@@ -1,6 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import {
+	Col,
+	Card,
+	CardBody,
+	CardTitle,
+	CardText
+} from 'reactstrap'
+
 import Moment from 'moment'
 import { CourseInfoCard } from './CourseInfoCard'
 import { LectureInfoCard } from './LectureInfoCard'
@@ -27,14 +35,14 @@ export default class InfoCardList extends React.Component {
 	renderLectureList() {
 		if (this.props.lectures.length == 0) {
 			return (
-				<div className="col-12">
-					<div className="card">
-						<div className="card-body">
-							<h5 className="card-title">No lectures available.</h5>
-							<p className="card-text">This may be a mistake, contact your instructor.</p>
-						</div>
-					</div>
-				</div>
+				<Col md="12">
+					<Card>
+						<CardBody>
+							<CardTitle>No lectures available.</CardTitle>
+							<CardText>This may be a mistake, contact your instructor</CardText>
+						</CardBody>
+					</Card>
+				</Col>
 			)
 		}
 		return (

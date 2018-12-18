@@ -78,17 +78,17 @@ class PollViewModal extends React.Component {
       <div>
         <Modal isOpen={this.props.isOpen}>
           <ModalHeader toggle={this.props.toggle}>{poll.title}</ModalHeader>
-            <ModalBody>
-              <p>{poll.prompt}</p>
-              {
-                poll.type == "multipleChoice" ? this.renderMultipleChoice() :
-                  this.renderFreeResponse()
-              }
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={this.handleSubmit}>Submit Answers</Button>{' '}
-              <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
-            </ModalFooter>
+          <ModalBody>
+            <p>{poll.prompt}</p>
+            {
+              poll.type == "multipleChoice" ? this.renderMultipleChoice() :
+                this.renderFreeResponse()
+            }
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleSubmit}>Submit Answers</Button>{' '}
+            <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
+          </ModalFooter>
         </Modal>
       </div>
 

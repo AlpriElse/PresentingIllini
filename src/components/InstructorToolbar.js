@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ResultsViewModal from './ResultsViewModal'
 import QuestionsViewModal from './QuestionsViewModal'
 import CreatePollViewModal from './CreatePollViewModal'
+import ExportViewModal from './ExportViewModal'
 
 import { instructorSocket } from '../sockets/client-instructor'
 
@@ -17,6 +18,7 @@ class InstructorToolbar extends React.Component {
       showQuestionsViewModal: false,
       questions : [],
       showCreatePollViewModal: false,
+      showExportViewModal: false,
       slideChanges: []
     }
   }
@@ -66,8 +68,10 @@ class InstructorToolbar extends React.Component {
     }))
   }
 
-  toggleExportDataViewModal = () => {
-
+  toggleExportViewModal = () => {
+    this.setState(state => ({
+      showExportViewModal: !state.showExportViewModal
+    }))
   }
 
   render() {
@@ -93,6 +97,10 @@ class InstructorToolbar extends React.Component {
           isOpen={this.state.showCreatePollViewModal}
           toggle={this.toggleCreatePollViewModal}
           send={this.sendPoll} />
+        <ExportViewModal
+          isOpen={this.state.showExportViewModal}
+          toggle={this.toggleExportViewModal}
+          />
 
         <li className="nav-item dropdown">
           <span className="nav-link" role="button"
@@ -113,7 +121,7 @@ class InstructorToolbar extends React.Component {
         </li>
         <li className="nav-item">
           <span className="nav-link" role="button"
-            onClick={this.toggleExportDataViewModal}>Export Data</span>
+            onClick={this.toggleExportViewModal}>Export Data</span>
         </li>
       </ul>
     )
