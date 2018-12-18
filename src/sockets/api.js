@@ -15,7 +15,7 @@ const initSocketListening = (port) => {
 
 		socket.on('sendPoll', (data) => {
 			//	TODO: Save poll to firestore
-			io.sockets.in(data.lecture_id).emit('recievePoll', data)
+			io.sockets.in(data.lecture_id).emit('recievePoll', data.poll)
 		})
 
 		socket.on('slideChange', (data) => {
@@ -25,7 +25,11 @@ const initSocketListening = (port) => {
 
 		socket.on('sendPollSubmission', (data) => {
 			//	TODO: Save submissions on firestore
-			io.sockets.in(data.lecture_id).emit('recievePollSubmission', data)
+			io.sockets.in(data.lecture_id).emit('recievePollSubmission', {
+				user: data.user,
+				poll_id: data.poll_id,
+				answer: data.answer
+			})
 		})
 	})
 	io.listen(port)

@@ -10,7 +10,11 @@ import {
   FormGroup,
   Label,
   Input,
-  Table} from 'reactstrap'
+  Table,
+  Card,
+  CardTitle,
+  CardText,
+  CardBody } from 'reactstrap'
 
 export default class ResultsViewModal extends React.Component {
   constructor(props) {
@@ -24,7 +28,6 @@ export default class ResultsViewModal extends React.Component {
     this.setState({
       selectedPoll: e.target.value
     })
-    console.log(e)
   }
 
   renderResults = () => {
@@ -35,67 +38,86 @@ export default class ResultsViewModal extends React.Component {
       return <span className="text-center">Please select a poll to view.</span>
     }
     let filteredSubmissions = this.props.submissions.filter((submission) => {
-      if (this.state.selectedPoll == submission.pollId) {
+      if (this.state.selectedPoll == submission.poll_id) {
         return true
       }
       return false
     })
 
-    let counts = [0, 0, 0, 0]
-    filteredSubmissions.forEach((submission) => {
-      for (let i = 0; i < 4; i++) {
-        if (submission.submission[i]) {
-          counts[i] += 1
-        }
-      }
+    let poll = this.props.polls.find((poll) => {
+      return poll.id == this.state.selectedPoll
     })
 
-    let totalResponses = 0
-    for (let num of counts) {
-      totalResponses += num
+    if (poll.type == "multipleChoice") {
+      let counts = {
+        'A': 0,
+        'B': 0,
+        'C': 0,
+        'D': 0
+      }
+      filteredSubmissions.forEach(submission => {
+        submission.answer.forEach(option => {
+          counts[option] += 1
+        })
+      })
+
+      let totalResponses = counts['A'] + counts['B'] + counts['C'] + counts['D']
+
+      return (
+        <Table>
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Number of Responses</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>{counts['A']}</td>
+              <td>{Math.round(counts['A']/totalResponses * 100) }%</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>{counts['B']}</td>
+              <td>{Math.round(counts['B']/totalResponses * 100) }%</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>{counts['C']}</td>
+              <td>{Math.round(counts['C']/totalResponses * 100) }%</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>{counts['D']}</td>
+              <td>{Math.round(counts['D']/totalResponses * 100) }%</td>
+            </tr>
+          </tbody>
+        </Table>
+      )
+    } else {
+      return (
+        <div>
+        {
+          filteredSubmissions.map(submission => (
+            <Card>
+              <CardBody>
+                <CardTitle>{submission.user == "" ? "Anonymous" : submission.user}</CardTitle>
+                <CardText>{submission.answer}</CardText>
+              </CardBody>
+            </Card>
+          ))
+        }
+        </div>
+      )
     }
-
-    return (
-      <Table>
-        <thead>
-          <tr>
-            <th>Option</th>
-            <th>Number of Responses</th>
-            <th>Percentage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>A</td>
-            <td>{counts[0]}</td>
-            <td>{Math.round(counts[0]/totalResponses * 100) }%</td>
-          </tr>
-          <tr>
-            <td>B</td>
-            <td>{counts[1]}</td>
-            <td>{Math.round(counts[1]/totalResponses * 100) }%</td>
-          </tr>
-          <tr>
-            <td>C</td>
-            <td>{counts[2]}</td>
-            <td>{Math.round(counts[2]/totalResponses * 100) }%</td>
-          </tr>
-          <tr>
-            <td>D</td>
-            <td>{counts[3]}</td>
-            <td>{Math.round(counts[3]/totalResponses * 100) }%</td>
-          </tr>
-
-        </tbody>
-      </Table>
-    )
-
   }
 
   render() {
     return (
       <div>
-        <Modal isOpen={this.props.isopen}>
+        <Modal isOpen={this.props.isOpen}>
           <ModalHeader toggle={this.props.toggle}>Results</ModalHeader>
           <ModalBody>
             <FormGroup>
@@ -105,8 +127,8 @@ export default class ResultsViewModal extends React.Component {
                 onChange={this.handleChange}>
                 <option value="select">Select</option>
                 {
-                  this.props.polls.map((pollID) => (
-                    <option value={pollID}>{pollID}</option>
+                  this.props.polls.map((poll) => (
+                    <option value={poll.id}>{poll.title}</option>
                   ))
                 }
               </Input>
@@ -132,6 +154,6 @@ ResultsViewModal.defaultProps = {
 ResultsViewModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   polls: PropTypes.array,
-  isopen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   submissions: PropTypes.array
 }

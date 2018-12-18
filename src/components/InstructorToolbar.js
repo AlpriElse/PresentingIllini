@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import uniqueString from 'unique-string'
 
-import { instructorSocket } from '../sockets/client-instructor'
 import ResultsViewModal from './ResultsViewModal'
 import QuestionsViewModal from './QuestionsViewModal'
+import CreatePollViewModal from './CreatePollViewModal'
 
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-const MySwal = withReactContent(Swal)
+import { instructorSocket } from '../sockets/client-instructor'
 
 class InstructorToolbar extends React.Component {
   constructor(props) {
@@ -19,9 +16,12 @@ class InstructorToolbar extends React.Component {
       polls: [],
       showQuestionsViewModal: false,
       questions : [],
+      showCreatePollViewModal: false,
       slideChanges: []
     }
+  }
 
+  componentDidMount() {
     instructorSocket.connect(this.props.lecture_id)
 
     instructorSocket.subscribe.question((question) => {
@@ -34,37 +34,30 @@ class InstructorToolbar extends React.Component {
         slideChanges: state.slideChanges.concat(data)
       }))
     })
-    instructorSocket.subscribe.pollSubmission((data) => {
-      console.log(data)
+    instructorSocket.subscribe.pollSubmission(submission => {
       this.setState(state => ({
-        pollSubmissions: state.pollSubmissions.concat(data)
+        pollSubmissions: state.pollSubmissions.concat(submission)
       }))
     })
   }
 
-  createPoll = () => {
-    Swal({
-      title: 'Are you sure?',
-      showCancelButton: true,
-      confirmButtonText: 'Submit',
-    }).then((data) => {
-      if (data.value) {
-        let newPollID = uniqueString().slice(0, 5)
-        instructorSocket.send.poll(this.props.lecture_id,newPollID)
-        this.setState(state => ({
-          polls: state.polls.concat(newPollID)
-        }))
-      }
-    })
+  sendPoll = (poll) => {
+    instructorSocket.send.poll(this.props.lecture_id, poll)
+    this.setState(state => ({
+      polls: state.polls.concat(poll)
+    }))
   }
+
+  toggleCreatePollViewModal = () => {
+    this.setState(state => ({
+      showCreatePollViewModal: !state.showCreatePollViewModal
+    }))
+  }
+
   toggleResultsViewModal = () => {
     this.setState(state => ({
       showResultsViewModal: !state.showResultsViewModal
     }))
-  }
-
-  handleShowResults = () => {
-    this.toggleResultsViewModal()
   }
 
   toggleQuestionsViewModal = () => {
@@ -73,14 +66,9 @@ class InstructorToolbar extends React.Component {
     }))
   }
 
-  handleShowQuestions = () => {
-    this.toggleQuestionsViewModal()
-  }
-
-  exportData = () => {
+  toggleExportDataViewModal = () => {
 
   }
-
 
   render() {
     let questionsList = <span className="dropdown-item text-primary">No Questions</span>
@@ -93,32 +81,39 @@ class InstructorToolbar extends React.Component {
     return (
       <ul className="nav nav-pills nav-fill">
         <ResultsViewModal
-          isopen={this.state.showResultsViewModal}
+          isOpen={this.state.showResultsViewModal}
           toggle={this.toggleResultsViewModal}
           polls={this.state.polls}
           submissions={this.state.pollSubmissions}/>
         <QuestionsViewModal
-          isopen={this.state.showQuestionsViewModal}
+          isOpen={this.state.showQuestionsViewModal}
           toggle={this.toggleQuestionsViewModal}
           questions={this.state.questions} />
+        <CreatePollViewModal
+          isOpen={this.state.showCreatePollViewModal}
+          toggle={this.toggleCreatePollViewModal}
+          send={this.sendPoll} />
 
         <li className="nav-item dropdown">
-          <span className="nav-link" role="button" onClick={this.handleShowQuestions}>
+          <span className="nav-link" role="button"
+            onClick={this.toggleQuestionsViewModal}>
           Questions {
             this.state.questions.length > 0 &&
               <span className="badge badge-pill badge-danger">{this.state.questions.length}</span>
           }
           </span>
-
         </li>
         <li className="nav-item">
-          <span className="nav-link" role="button" onClick={this.createPoll}>Create Poll</span>
+          <span className="nav-link" role="button"
+            onClick={this.toggleCreatePollViewModal}>Create Poll</span>
         </li>
         <li className="nav-item">
-          <span className="nav-link" role="button" onClick={this.handleShowResults}>Show Results</span>
+          <span className="nav-link" role="button"
+            onClick={this.toggleResultsViewModal}>Show Results</span>
         </li>
         <li className="nav-item">
-          <span className="nav-link" role="button" onClick={this.exportData}>Export Data</span>
+          <span className="nav-link" role="button"
+            onClick={this.toggleExportDataViewModal}>Export Data</span>
         </li>
       </ul>
     )

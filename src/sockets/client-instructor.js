@@ -24,9 +24,9 @@ const subscribe = {
 }
 
 const send = {
-	poll: (lecture_id, pollId, answer) => {
+	poll: (lecture_id, poll) => {
 		socket.emit('sendPoll', {
-			lecture_id, pollId
+			lecture_id, poll
 		})
 	}
 }

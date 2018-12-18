@@ -71,6 +71,7 @@ InfoCardList.defaultProps = {
 	lectures: []
 }
 
+//	TODO: make one of props.courses OR props.lectures required
 InfoCardList.propTypes = {
 	type: PropTypes.string.isRequired
 }

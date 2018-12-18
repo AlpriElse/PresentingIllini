@@ -15,10 +15,13 @@ class StudentToolbar extends React.Component {
     this.state = {
       showPollViewModal: false,
       pageNumber: null,
-      currentPoll: null
-
+      currentPoll: {}
     }
+  }
+
+  componentDidMount() {
     studentSocket.connect(this.props.lecture_id)
+
     studentSocket.subscribe.poll((poll) => {
       this.setState(state => ({
         showPollViewModal: !state.showPollViewModal,
@@ -61,24 +64,25 @@ class StudentToolbar extends React.Component {
     }))
   }
 
-  handlePollSubmit = (answers) => {
+  handlePollSubmit = (answer) => {
     this.togglePollViewModal()
     studentSocket.send.pollSubmission(
       this.props.lecture_id,
       this.props.user,
-      this.state.currentPoll.pollId,
-      answers
+      this.state.currentPoll.id,
+      answer
     )
   }
 
   render() {
-    console.log("Open", this.state.showPollViewModal)
     return (
       <div>
         <PollViewModal
-          isopen={this.state.showPollViewModal}
+          isOpen={this.state.showPollViewModal}
           confirm={this.handlePollSubmit}
-          toggle={this.togglePollViewModal} />
+          toggle={this.togglePollViewModal}
+          poll={this.state.currentPoll} />
+
         <nav className="nav text-primary nav-pills nav-fill">
           <span onClick={this.askQuestionHandler} className="nav-item nav-link" >Ask a Question</span>
         </nav>
@@ -86,6 +90,7 @@ class StudentToolbar extends React.Component {
     )
   }
 }
+
 StudentToolbar.propTypes = {
   lecture_id: PropTypes.string.isRequired,
   pageNumber: PropTypes.number.isRequired,

@@ -32,7 +32,7 @@ export default class QuestionsViewModal extends React.Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.props.isopen}>
+        <Modal isOpen={this.props.isOpen}>
           <ModalHeader toggle={this.props.toggle}>Questions</ModalHeader>
           <ModalBody>
             {
@@ -55,5 +55,5 @@ QuestionsViewModal.defaultProps = {
 QuestionsViewModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   questions: PropTypes.array,
-  isopen: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired
 }

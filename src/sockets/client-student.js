@@ -24,9 +24,9 @@ const send = {
 			lecture_id, slide_number, user
 		})
 	},
-	pollSubmission: (lecture_id, user, pollId, submission) => {
+	pollSubmission: (lecture_id, user, poll_id, answer) => {
 		socket.emit('sendPollSubmission', {
-			lecture_id, user, pollId, submission
+			lecture_id, user, poll_id, answer
 		})
 	}
 }
