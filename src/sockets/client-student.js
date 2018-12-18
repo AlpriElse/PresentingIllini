@@ -10,6 +10,11 @@ const subscribe = {
 		socket.on('recievePoll', (poll) => {
 			cb(poll)
 		})
+	},
+	question: (cb) => {
+		socket.on('recieveQuestion', (question) => {
+			cb(question)
+		})
 	}
 }
 

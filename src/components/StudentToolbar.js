@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
-import PollViewModal from '../components/PollViewModal'
+
+import PollViewModal from './PollViewModal'
+import QuestionsViewModal from './QuestionsViewModal'
 
 import { studentSocket } from '../sockets/client-student'
 
@@ -13,6 +15,8 @@ class StudentToolbar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      showQuestionsViewModal: false,
+      questions: [],
       showPollViewModal: false,
       pageNumber: null,
       currentPoll: {}
@@ -28,6 +32,12 @@ class StudentToolbar extends React.Component {
         currentPoll: poll
       }))
     })
+
+    studentSocket.subscribe.question((question) => {
+      this.setState(state => ({
+        questions: state.questions.concat(question)
+      }))
+    })
   }
 
   componentWillReceiveProps() {
@@ -39,7 +49,7 @@ class StudentToolbar extends React.Component {
     }
   }
 
-  askQuestionHandler = () => {
+  handleAskQuestion = () => {
     Swal({
       title: 'What\'s your question?',
       input: 'text',
@@ -58,6 +68,11 @@ class StudentToolbar extends React.Component {
     })
   }
 
+  toggleQuestionsViewModal = () => {
+    this.setState(state => ({
+      showQuestionsViewModal: !state.showQuestionsViewModal
+    }))
+  }
   togglePollViewModal = () => {
     this.setState(state => ({
       showPollViewModal: !state.showPollViewModal
@@ -77,14 +92,19 @@ class StudentToolbar extends React.Component {
   render() {
     return (
       <div>
+        <QuestionsViewModal
+          isOpen={this.state.showQuestionsViewModal}
+          toggle={this.toggleQuestionsViewModal}
+          questions={this.state.questions} />
         <PollViewModal
           isOpen={this.state.showPollViewModal}
           confirm={this.handlePollSubmit}
           toggle={this.togglePollViewModal}
           poll={this.state.currentPoll} />
 
-        <nav className="nav text-primary nav-pills nav-fill">
-          <span onClick={this.askQuestionHandler} className="nav-item nav-link" >Ask a Question</span>
+        <nav className="nav nav-pills nav-fill">
+          <span onClick={this.handleAskQuestion} className="nav-item nav-link" >Ask a Question</span>
+          <span onClick={this.toggleQuestionsViewModal} className="nav-item nav-link">Student Questions</span>
         </nav>
       </div>
     )
