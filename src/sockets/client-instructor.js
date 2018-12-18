@@ -23,9 +23,9 @@ const subscribe = {
 	}
 }
 
-const create = {
+const send = {
 	poll: (lecture_id, pollId, answer) => {
-		socket.emit('createPoll', {
+		socket.emit('sendPoll', {
 			lecture_id, pollId
 		})
 	}
@@ -34,5 +34,5 @@ const create = {
 export const instructorSocket = {
 	connect,
 	subscribe,
-	create
+	send
 }

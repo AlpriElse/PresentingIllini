@@ -13,27 +13,26 @@ const subscribe = {
 	}
 }
 
-const create = {
+const send = {
 	question: (lecture_id, question) => {
-		socket.emit('createQuestion', {
+		socket.emit('sendQuestion', {
 			lecture_id, question
 		})
 	},
 	slideChange: (lecture_id, slide_number, user) => {
-		socket.emit('slideChange', {
+		socket.emit('sendSlideChange', {
 			lecture_id, slide_number, user
 		})
 	},
-	pollSubmission: (lecture_id, pollId, submission) => {
-		socket.emit('createPollSubmission', {
-			lecture_id, pollId, submission
+	pollSubmission: (lecture_id, user, pollId, submission) => {
+		socket.emit('sendPollSubmission', {
+			lecture_id, user, pollId, submission
 		})
 	}
 }
 
 export const studentSocket = {
 	connect,
-	create,
+	send,
 	subscribe
-
 }

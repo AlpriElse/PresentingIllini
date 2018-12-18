@@ -7,20 +7,24 @@ const initSocketListening = (port) => {
 			socket.join(lecture_id)
 		})
 
-		socket.on('createQuestion', (data) => {
+		socket.on('sendQuestion', (data) => {
 			console.log("Sending to ", data.lecture_id)
+			//	TODO: Save questions to firestore
 			io.sockets.in(data.lecture_id).emit('recieveQuestion', data.question)
 		})
 
-		socket.on('createPoll', (data) => {
+		socket.on('sendPoll', (data) => {
+			//	TODO: Save poll to firestore
 			io.sockets.in(data.lecture_id).emit('recievePoll', data)
 		})
 
 		socket.on('slideChange', (data) => {
+			//	TODO: Save slide changes to firestore
 			io.sockets.in(data.lecture_id).emit('recieveSlideChange', data)
 		})
 
-		socket.on('createPollSubmission', (data) => {
+		socket.on('sendPollSubmission', (data) => {
+			//	TODO: Save submissions on firestore
 			io.sockets.in(data.lecture_id).emit('recievePollSubmission', data)
 		})
 	})

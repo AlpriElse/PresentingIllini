@@ -4,6 +4,8 @@ import uniqueString from 'unique-string'
 
 import { instructorSocket } from '../sockets/client-instructor'
 import ResultsViewModal from './ResultsViewModal'
+import QuestionsViewModal from './QuestionsViewModal'
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
@@ -13,10 +15,11 @@ class InstructorToolbar extends React.Component {
     super(props)
     this.state = {
       showResultsViewModal: false,
-      questions : [],
-      slideChanges: [],
       pollSubmissions: [],
-      polls: []
+      polls: [],
+      showQuestionsViewModal: false,
+      questions : [],
+      slideChanges: []
     }
 
     instructorSocket.connect(this.props.lecture_id)
@@ -47,7 +50,7 @@ class InstructorToolbar extends React.Component {
     }).then((data) => {
       if (data.value) {
         let newPollID = uniqueString().slice(0, 5)
-        instructorSocket.create.poll(this.props.lecture_id,newPollID)
+        instructorSocket.send.poll(this.props.lecture_id,newPollID)
         this.setState(state => ({
           polls: state.polls.concat(newPollID)
         }))
@@ -62,6 +65,16 @@ class InstructorToolbar extends React.Component {
 
   handleShowResults = () => {
     this.toggleResultsViewModal()
+  }
+
+  toggleQuestionsViewModal = () => {
+    this.setState(state => ({
+      showQuestionsViewModal: !state.showQuestionsViewModal
+    }))
+  }
+
+  handleShowQuestions = () => {
+    this.toggleQuestionsViewModal()
   }
 
   exportData = () => {
@@ -84,19 +97,19 @@ class InstructorToolbar extends React.Component {
           toggle={this.toggleResultsViewModal}
           polls={this.state.polls}
           submissions={this.state.pollSubmissions}/>
+        <QuestionsViewModal
+          isopen={this.state.showQuestionsViewModal}
+          toggle={this.toggleQuestionsViewModal}
+          questions={this.state.questions} />
 
         <li className="nav-item dropdown">
-          <span className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <span className="nav-link" role="button" onClick={this.handleShowQuestions}>
           Questions {
             this.state.questions.length > 0 &&
               <span className="badge badge-pill badge-danger">{this.state.questions.length}</span>
           }
           </span>
-          <div className="dropdown-menu">
-            {
-              questionsList
-            }
-          </div>
+
         </li>
         <li className="nav-item">
           <span className="nav-link" role="button" onClick={this.createPoll}>Create Poll</span>

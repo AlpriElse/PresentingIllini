@@ -18,7 +18,6 @@ class StudentToolbar extends React.Component {
       currentPoll: null
 
     }
-    //  TODO: Replace with actual lecture_id
     studentSocket.connect(this.props.lecture_id)
     studentSocket.subscribe.poll((poll) => {
       this.setState(state => ({
@@ -26,12 +25,11 @@ class StudentToolbar extends React.Component {
         currentPoll: poll
       }))
     })
-
   }
 
   componentWillReceiveProps() {
     if (this.state.pageNumber != this.props.pageNumber) {
-      studentSocket.create.slideChange(this.props.lecture_id, this.props.pageNumber, this.props.user)
+      studentSocket.send.slideChange(this.props.lecture_id, this.props.pageNumber, this.props.user)
       this.setState({
         pageNumber: this.props.pageNumber
       })
@@ -49,7 +47,10 @@ class StudentToolbar extends React.Component {
       confirmButtonText: 'Submit',
     }).then((data) => {
       if (data.value != undefined) {
-        studentSocket.create.question(this.props.lecture_id, data.value)
+        studentSocket.send.question(this.props.lecture_id, {
+          user: this.props.user,
+          body: data.value
+        })
       }
     })
   }
@@ -62,8 +63,9 @@ class StudentToolbar extends React.Component {
 
   handlePollSubmit = (answers) => {
     this.togglePollViewModal()
-    studentSocket.create.pollSubmission(
+    studentSocket.send.pollSubmission(
       this.props.lecture_id,
+      this.props.user,
       this.state.currentPoll.pollId,
       answers
     )
@@ -86,7 +88,8 @@ class StudentToolbar extends React.Component {
 }
 StudentToolbar.propTypes = {
   lecture_id: PropTypes.string.isRequired,
-  pageNumber: PropTypes.number.isRequired
+  pageNumber: PropTypes.number.isRequired,
+  user: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
