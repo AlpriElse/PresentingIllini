@@ -18,9 +18,12 @@ const initSocketListening = (port) => {
 			io.sockets.in(data.lecture_id).emit('recievePoll', data.poll)
 		})
 
-		socket.on('slideChange', (data) => {
+		socket.on('sendSlideChange', (data) => {
 			//	TODO: Save slide changes to firestore
-			io.sockets.in(data.lecture_id).emit('recieveSlideChange', data)
+			io.sockets.in(data.lecture_id).emit('recieveSlideChange', {
+				user: data.user,
+				slide_number: data.slide_number
+			})
 		})
 
 		socket.on('sendPollSubmission', (data) => {

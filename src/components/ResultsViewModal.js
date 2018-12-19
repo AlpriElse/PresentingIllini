@@ -37,16 +37,12 @@ export default class ResultsViewModal extends React.Component {
     if (this.state.selectedPoll == "select") {
       return <span className="text-center">Please select a poll to view.</span>
     }
-    let filteredSubmissions = this.props.submissions.filter((submission) => {
-      if (this.state.selectedPoll == submission.poll_id) {
-        return true
-      }
-      return false
-    })
 
     let poll = this.props.polls.find((poll) => {
       return poll.id == this.state.selectedPoll
     })
+
+    let filteredSubmissions = poll.submissions
 
     if (poll.type == "multipleChoice") {
       let counts = {

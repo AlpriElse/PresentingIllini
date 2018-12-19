@@ -13,13 +13,12 @@ class InstructorToolbar extends React.Component {
     super(props)
     this.state = {
       showResultsViewModal: false,
-      pollSubmissions: [],
       polls: [],
       showQuestionsViewModal: false,
       questions : [],
       showCreatePollViewModal: false,
       showExportViewModal: false,
-      slideChanges: []
+      slideChanges: {}
     }
   }
 
@@ -31,15 +30,27 @@ class InstructorToolbar extends React.Component {
         questions: state.questions.concat(question)
       }))
     })
-    instructorSocket.subscribe.slideChange((data) => {
-      this.setState(state => ({
-        slideChanges: state.slideChanges.concat(data)
-      }))
+
+    instructorSocket.subscribe.slideChange(change => {
+      this.setState(state =>  {
+        if (state.slideChanges[change.user]) {
+          state.slideChanges[change.user].push(change.slide_number)
+        } else {
+          state.slideChanges[change.user] = [change.slide_number]
+        }
+        return state
+      })
     })
+
     instructorSocket.subscribe.pollSubmission(submission => {
-      this.setState(state => ({
-        pollSubmissions: state.pollSubmissions.concat(submission)
-      }))
+      this.setState(state => {
+        let index = this.state.polls.findIndex(poll => {
+          return poll.id == submission.poll_id
+        })
+        delete submission.poll_id
+        state.polls[index].submissions.push(submission)
+        return state
+      })
     })
   }
 
@@ -87,8 +98,7 @@ class InstructorToolbar extends React.Component {
         <ResultsViewModal
           isOpen={this.state.showResultsViewModal}
           toggle={this.toggleResultsViewModal}
-          polls={this.state.polls}
-          submissions={this.state.pollSubmissions}/>
+          polls={this.state.polls}/>
         <QuestionsViewModal
           isOpen={this.state.showQuestionsViewModal}
           toggle={this.toggleQuestionsViewModal}
@@ -100,7 +110,9 @@ class InstructorToolbar extends React.Component {
         <ExportViewModal
           isOpen={this.state.showExportViewModal}
           toggle={this.toggleExportViewModal}
-          />
+          polls={this.state.polls}
+          questions={this.state.questions}
+          slideChanges={this.state.slideChanges}/>
 
         <li className="nav-item dropdown">
           <span className="nav-link" role="button"

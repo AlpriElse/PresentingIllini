@@ -11,8 +11,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
-} from 'reactstrap'
+  Input } from 'reactstrap'
 
 export default class CreatePollViewModal extends React.Component {
   constructor(props) {
@@ -21,7 +20,8 @@ export default class CreatePollViewModal extends React.Component {
       title: "",
       prompt: "",
       type: "",
-      id: ""
+      id: "",
+      submissions: []
     }
   }
 
