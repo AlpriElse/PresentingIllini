@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Moment from 'moment'
+import { CourseInfoCard } from './CourseInfoCard'
+import { LectureInfoCard } from './LectureInfoCard'
+
 import {
 	Col,
 	Card,
@@ -9,9 +13,6 @@ import {
 	CardText
 } from 'reactstrap'
 
-import Moment from 'moment'
-import { CourseInfoCard } from './CourseInfoCard'
-import { LectureInfoCard } from './LectureInfoCard'
 
 export default class InfoCardList extends React.Component {
 	constructor(props) {

@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import InfoCardList from '../components/InfoCardList'
-import { Loading } from '../components/Loading'
+
 import { fetchCourse } from '../actions/course'
 import { Lecture } from '../actions/lecture'
-import { AddLectureInfoCard } from '../components/AddLectureInfoCard'
+
+import { Loading } from '../components/Loading'
+import InfoCardList from '../components/InfoCards/InfoCardList'
+import { AddLectureInfoCard } from '../components/InfoCards/AddLectureInfoCard'
 
 const Style = {
 	margin: '5px 0'

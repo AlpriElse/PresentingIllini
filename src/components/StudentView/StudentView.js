@@ -6,18 +6,27 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
+import StudentToolbar from './StudentToolbar'
 import PollViewModal from './PollViewModal'
-import QuestionsViewModal from './QuestionsViewModal'
+import QuestionsViewModal from '../QuestionsViewModal'
 
-import { studentSocket } from '../sockets/client-student'
+import { studentSocket } from '../../sockets/client-student'
 
-class StudentToolbar extends React.Component {
+const Style = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center"
+}
+
+class StudentView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showQuestionsViewModal: false,
+      show: {
+        questionsViewModal: false,
+        pollViewModal: false
+      },
       questions: [],
-      showPollViewModal: false,
       pageNumber: null,
       currentPoll: {}
     }
@@ -28,9 +37,9 @@ class StudentToolbar extends React.Component {
 
     studentSocket.subscribe.poll((poll) => {
       this.setState(state => ({
-        showPollViewModal: !state.showPollViewModal,
         currentPoll: poll
       }))
+      this.toggleModal('pollViewModal')
     })
 
     studentSocket.subscribe.question((question) => {
@@ -68,19 +77,15 @@ class StudentToolbar extends React.Component {
     })
   }
 
-  toggleQuestionsViewModal = () => {
-    this.setState(state => ({
-      showQuestionsViewModal: !state.showQuestionsViewModal
-    }))
-  }
-  togglePollViewModal = () => {
-    this.setState(state => ({
-      showPollViewModal: !state.showPollViewModal
-    }))
+  toggleModal = (modal) => {
+    this.setState(state => {
+      state.show[modal] = !state.show[modal]
+      return state
+    })
   }
 
   handlePollSubmit = (answer) => {
-    this.togglePollViewModal()
+    this.toggleModal('pollViewModal')
     studentSocket.send.pollSubmission(
       this.props.lecture_id,
       this.props.user,
@@ -93,25 +98,28 @@ class StudentToolbar extends React.Component {
     return (
       <div>
         <QuestionsViewModal
-          isOpen={this.state.showQuestionsViewModal}
-          toggle={this.toggleQuestionsViewModal}
+          isOpen={this.state.show.questionsViewModal}
+          toggle={() => (this.toggleModal("questionsViewModal"))}
           questions={this.state.questions} />
         <PollViewModal
-          isOpen={this.state.showPollViewModal}
+          isOpen={this.state.show.pollViewModal}
           confirm={this.handlePollSubmit}
-          toggle={this.togglePollViewModal}
+          toggle={() => (this.toggleModal("pollViewModal"))}
           poll={this.state.currentPoll} />
-
-        <nav className="nav nav-pills nav-fill">
-          <span onClick={this.handleAskQuestion} className="nav-item nav-link" >Ask a Question</span>
-          <span onClick={this.toggleQuestionsViewModal} className="nav-item nav-link">Student Questions</span>
-        </nav>
+        <StudentToolbar
+          toggleModal={this.toggleModal}
+          handleAskQuestion={this.handleAskQuestion}/>
+        <div style={Style}>
+          {
+            this.props.children
+          }
+        </div>
       </div>
     )
   }
 }
 
-StudentToolbar.propTypes = {
+StudentView.propTypes = {
   lecture_id: PropTypes.string.isRequired,
   pageNumber: PropTypes.number.isRequired,
   user: PropTypes.string.isRequired
@@ -122,4 +130,4 @@ const mapStateToProps = state => ({
   pageNumber: state.pageNumber
 })
 
-export default connect(mapStateToProps, null)(StudentToolbar)
+export default connect(mapStateToProps, null)(StudentView)

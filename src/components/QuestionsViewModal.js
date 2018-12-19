@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { QuestionInfoCard } from './QuestionInfoCard'
+import { QuestionInfoCard } from './InfoCards/QuestionInfoCard'
 
 import {
   Modal,

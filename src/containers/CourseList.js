@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import InfoCardList from '../components/InfoCardList'
-import { Loading } from '../components/Loading'
-import AddCourseInfoCard from '../components/AddCourseInfoCard'
 import { fetchAllCourses } from '../actions/course.js'
+
+import { Loading } from '../components/Loading'
+import InfoCardList from '../components/InfoCards/InfoCardList'
+import AddCourseInfoCard from '../components/InfoCards/AddCourseInfoCard'
 
 class CourseList extends React.Component {
 	constructor(props) {

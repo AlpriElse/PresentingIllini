@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Page from '../containers/Page'
-import PDFViewer from '../components/PDFViewer'
 import { Lecture as LectureActions } from '../actions/lecture'
+
+import Page from '../containers/Page'
 import { Loading } from '../components/Loading'
-import StudentToolbar from '../components/StudentToolbar'
-import InstructorToolbar from '../components/InstructorToolbar'
+
+import PDFViewer from '../components/PDFViewer'
+import PresenterView from '../components/PresenterView'
+import StudentView from '../components/StudentView'
 
 class Lecture extends React.Component {
 	constructor(props) {
@@ -30,18 +32,15 @@ class Lecture extends React.Component {
 	render() {
 		let slides = this.props.slides
 		let isLoading = slides.isFetching || slides.invalid
-		let toolbar = this.props.isInstructor ? (
-			<InstructorToolbar lecture_id={this.props.lecture_id}/>
-		) : (
-			<StudentToolbar lecture_id={this.props.lecture_id}/>
-		)
+		let View = this.props.isInstructor ? PresenterView : StudentView
 
 		let content = isLoading ? (
 			<Loading />
 		) : (
 			<div>
-				{ toolbar }
-				<PDFViewer fileLink={this.props.slides.items}/>
+				<View lecture_id={this.props.lecture_id}>
+					<PDFViewer fileLink={this.props.slides.items}/>
+				</View>
 			</div>
 		)
 
