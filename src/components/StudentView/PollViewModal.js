@@ -50,6 +50,12 @@ class PollViewModal extends React.Component {
      } else {
        this.props.confirm(this.state.text)
      }
+
+     // Reset
+     this.setState({
+       selected: [],
+       text: ""
+     })
   }
 
   renderMultipleChoice = () => (

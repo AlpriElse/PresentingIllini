@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
+  Col,
+  Row,
   Modal,
   ModalHeader,
   ModalBody,
@@ -15,6 +17,8 @@ import {
   CardTitle,
   CardText,
   CardBody } from 'reactstrap'
+
+import { Pie as PieChart} from 'react-chartjs'
 
 export default class ResultsViewModal extends React.Component {
   constructor(props) {
@@ -59,38 +63,73 @@ export default class ResultsViewModal extends React.Component {
 
       let totalResponses = counts['A'] + counts['B'] + counts['C'] + counts['D']
 
+      let chartData = [
+        {
+          value: counts['A'],
+          label: 'A',
+          color :"#19BCFF"
+        },
+        {
+          value: counts['B'],
+          label: 'B',
+          color: "#F74A55"
+        },
+        {
+          value: counts['C'],
+          label: 'C',
+          color: "#F28453"
+        },
+        {
+          value: counts['D'],
+          label: 'D',
+          color: "#BAFAA6"
+        }
+      ]
+
+      let chartOptions = {
+        animateRotate: false,
+        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"><%if(segments[i].label){%><%=segments[i].label%><%}%></span></li><%}%></ul>"
+      }
+
       return (
-        <Table>
-          <thead>
-            <tr>
-              <th>Option</th>
-              <th>Number of Responses</th>
-              <th>Percentage</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>A</td>
-              <td>{counts['A']}</td>
-              <td>{Math.round(counts['A']/totalResponses * 100) }%</td>
-            </tr>
-            <tr>
-              <td>B</td>
-              <td>{counts['B']}</td>
-              <td>{Math.round(counts['B']/totalResponses * 100) }%</td>
-            </tr>
-            <tr>
-              <td>C</td>
-              <td>{counts['C']}</td>
-              <td>{Math.round(counts['C']/totalResponses * 100) }%</td>
-            </tr>
-            <tr>
-              <td>D</td>
-              <td>{counts['D']}</td>
-              <td>{Math.round(counts['D']/totalResponses * 100) }%</td>
-            </tr>
-          </tbody>
-        </Table>
+        <Row>
+          <Col md="6">
+            <Table>
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>Number of Responses</th>
+                  <th>Percentage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td>{counts['A']}</td>
+                  <td>{Math.round(counts['A']/totalResponses * 100) }%</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td>{counts['B']}</td>
+                  <td>{Math.round(counts['B']/totalResponses * 100) }%</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td>{counts['C']}</td>
+                  <td>{Math.round(counts['C']/totalResponses * 100) }%</td>
+                </tr>
+                <tr>
+                  <td>D</td>
+                  <td>{counts['D']}</td>
+                  <td>{Math.round(counts['D']/totalResponses * 100) }%</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+          <Col md="6">
+            <PieChart data={chartData} options={chartOptions}/>
+          </Col>
+        </Row>
       )
     } else {
       return (
@@ -113,7 +152,7 @@ export default class ResultsViewModal extends React.Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.props.isOpen}>
+        <Modal isOpen={this.props.isOpen} size="lg">
           <ModalHeader toggle={this.props.toggle}>Results</ModalHeader>
           <ModalBody>
             <FormGroup>

@@ -100,6 +100,7 @@ class PresenterView extends React.Component {
 
         <PresenterToolbar
           toggleModal={this.toggleModal}/>
+        <br />
         <div style={Style}>
           {
             this.props.children

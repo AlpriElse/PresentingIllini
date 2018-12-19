@@ -109,6 +109,7 @@ class StudentView extends React.Component {
         <StudentToolbar
           toggleModal={this.toggleModal}
           handleAskQuestion={this.handleAskQuestion}/>
+        <br />
         <div style={Style}>
           {
             this.props.children

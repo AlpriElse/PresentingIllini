@@ -34,7 +34,16 @@ export default class CreatePollViewModal extends React.Component {
   handleSend = () => {
     this.state.id = uniqueString().slice(0, 5)
     this.props.toggle()
-    this.props.send(this.state)
+    this.props.send(Object.assign({}, this.state))
+
+    //  Reset
+    this.setState({
+      title: "",
+      prompt: "",
+      type: "",
+      id: "",
+      submissions: []
+    })
   }
 
   render() {

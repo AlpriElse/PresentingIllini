@@ -9,7 +9,7 @@ class StudentToolbar extends React.Component {
   render() {
     return (
       <div>
-        <nav className="nav nav-pills nav-fill">
+        <nav className="nav nav-pills">
           <span onClick={this.props.handleAskQuestion} className="nav-item nav-link" >Ask a Question</span>
           <span onClick={() => (this.props.toggleModal("questionsViewModal"))} className="nav-item nav-link">Student Questions</span>
         </nav>

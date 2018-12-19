@@ -13,7 +13,7 @@ class PresenterToolbar extends React.Component {
   render() {
     const toggleModal = this.props.toggleModal
     return (
-      <ul className="nav nav-pills nav-fill">
+      <ul className="nav nav-pills">
         <li className="nav-item dropdown">
           <span className="nav-link" role="button"
             onClick={() => (toggleModal("questionsViewModal"))}>

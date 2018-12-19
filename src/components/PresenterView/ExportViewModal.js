@@ -47,7 +47,7 @@ class ExportViewModal extends React.Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.props.isOpen}>
+        <Modal isOpen={this.props.isOpen} size="lg">
           <ModalHeader toggle={this.props.toggle}>Export Data</ModalHeader>
           <ModalBody>
             <Label>Select What To Output</Label>

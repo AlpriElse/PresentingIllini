@@ -9,6 +9,13 @@ import { pdfjs } from 'react-pdf'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
+const border = {
+	border: "1px solid #E3E3E3",
+	padding: "5px",
+	boxShadow: "0px 3px 5px grey"
+
+}
+
 class PDFViewer extends React.Component {
 	constructor(props) {
 		super(props)
@@ -16,7 +23,6 @@ class PDFViewer extends React.Component {
 			pageNumber: 1,
 			numPages: null
 		}
-
 	}
 
 	handleKeyDown = (e) => {
@@ -39,7 +45,7 @@ class PDFViewer extends React.Component {
 
 	render() {
 		return (
-			<div onKeyDown={this.handleKeyDown} tabIndex="0">
+			<div onKeyDown={this.handleKeyDown} tabIndex="0" style={border}>
 				<Document file={this.props.fileLink}
 					onLoadSuccess={this.onDocumentLoadSuccess}>
 					<Page pageNumber={this.state.pageNumber}/>
