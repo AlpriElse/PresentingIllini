@@ -33,7 +33,3 @@ nextApp.prepare().then(() => {
 		console.log('> Ready on http://localhost:', PORT)
 	})
 })
-
-//  Start socketio
-// const socket_port = 3000
-// initSockets(socket_port)
