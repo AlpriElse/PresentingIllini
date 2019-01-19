@@ -1,6 +1,7 @@
-const io = require('socket.io')()
+const socketio = require('socket.io')
 
-const initSocketListening = (port) => {
+const initSocketListening = (server) => {
+	const io = socketio(server)
 	io.on('connection', (socket) => {
 		socket.on('joinLecture', (lecture_id) => {
 			console.log("Joining", lecture_id)
@@ -35,8 +36,6 @@ const initSocketListening = (port) => {
 			})
 		})
 	})
-	io.listen(port)
 }
-
 
 module.exports = initSocketListening

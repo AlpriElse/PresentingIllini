@@ -4,10 +4,10 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/server.js",
-    "build": "next build src",
-    "heroku-postbuild": "next build src",
-    "start": "next start src"
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "next build"
   },
   "repository": {
     "type": "git",
@@ -47,11 +47,6 @@
     "sweetalert2": "^7.31.0",
     "sweetalert2-react-content": "^1.0.1",
     "unique-string": "^1.0.0"
-  },
-  "now": {
-    "engines": {
-      "node": "8.9.3"
-    }
   },
   "devDependencies": {
     "eslint": "^5.10.0",
